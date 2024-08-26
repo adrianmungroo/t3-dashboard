@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 # Defining page
 
 APP_TITLE = "Task 3 Dashboard"
-APP_SUBTITLE = "Adrian Mungroo, David Solano, Hyun Woo Kim, Robert Churchill, Chenghao Duan"
+APP_SUBTITLE = "Adrian Mungroo, David Solano, Hyun Woo Kim"
 
 st.set_page_config(
     page_title=APP_TITLE,

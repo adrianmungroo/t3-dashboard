@@ -10,7 +10,7 @@ def compute_contribution(dbt, tip_point, industrial_consumption, datacenter_offs
 
 st.write("# Datacenter Acquisition Simulator")
 
-data_industrial = pd.read_csv('data\\Consumed_industrial_kW.csv')
+data_industrial = pd.read_csv(r'data/Consumed_industrial_kW.csv')
 
 col1, col2 = st.columns(2)
 

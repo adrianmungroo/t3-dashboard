@@ -1,0 +1,10 @@
+(4) Consumer Cost
+
+SOCO Consumer Cost.xlsx
+--------------------------------------------------------------------------------------------------
+Type: Time Series
+Spatial Region: SOCO
+Description: $/MWh cost for each type of consumer in SOCO, 2016 - 2022
+Source: EIA Form 861 | Sales_Ult_Cust_YEAR.xlsx | https://www.eia.gov/electricity/data/eia861/
+Methodology: Value is an average = Total Revenue divided by Total Sales in MWh, by Customer Type 
+Notes: Cost per customer could be found with data, but "Customer" equals 1 meter, not 1 person or business

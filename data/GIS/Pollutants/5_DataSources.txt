@@ -1,0 +1,10 @@
+(5) Pollutants
+
+AQI Scores County YEAR.csv
+---------------------------------------------------------------------------------------------------------------
+Type: County
+Spatial Range: Specific Counties throughout Georgia
+Description: Reports # of days with unhealthy Air Quality Index, Max AQI score, 90th percentile, median score, and more for selected GA Counties from 2016-2022.
+Data Source: Annual Air Quality Index Summary | https://aqs.epa.gov/aqsweb/airdata/download_files.html#Annual
+Methodology: All Non-Georgia counties deleted
+Notes: Only about 30 counties included. Some ARC counties missing.

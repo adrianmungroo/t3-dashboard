@@ -1,0 +1,28 @@
+(6) Energy Burden
+
+Because the Methodologies between 2016 and 2021/2022 are different, it would be unwise to use the data to compare specific values across years. For this reason, there are no time series files for this data.
+
+ElectricityBurdenGA_Tract2021.csv and ElectricityBurdenGA_Tract2022.csv
+-----------------------------------------------------------------------------------------------------
+Type: Tract
+Description: Percent of income spent on electricity, annual average
+Data Source: American Community Survey 5 year | https://www.census.gov/programs-surveys/acs/news/data-releases.2022.html#list-tab-1133175109
+Methodology: For each tract, took the energy expenditure buckets and multiplied by the average value in that bucket. Need full thought out response here.
+
+Note: Unclear whether assumptions about multiplying by . Data for electricity expenditures is only available for 2021 and 2022, method can't be used backwards.
+
+ElectricityBurdenGA_Counties2021.csv and ElectricityBurdenGA_Counties2022.csv
+-----------------------------------------------------------------------------------------------------
+Type: County
+Description: Percent of income spent on electricity, annual average
+Data Source: Same as 2021 tracts
+Methodology: Same as 2021 tracts
+
+EnergyBurdenTract2016.csv and EnergyBurdenCounty2016.csv
+---------------------------------------------------------------------------------------------------
+Type: Tract and County, respectively
+Description: Percent of income spent on electricity, gas, other, and total. Annual average.
+Data Source: https://www.energy.gov/scep/slsc/lead-tool
+Methodology: See NREL Documentation - https://www.nrel.gov/docs/fy19osti/74249.pdf
+Note: Methodology theoretically reproducible using ACS data, but would be an undertaking
+

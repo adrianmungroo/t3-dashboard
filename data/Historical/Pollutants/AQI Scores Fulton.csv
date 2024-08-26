@@ -1,0 +1,8 @@
+﻿State,County,FIPS,Year,Days with AQI,Good Days,Moderate Days,Unhealthy for Sensitive Groups Days,Unhealthy Days,Very Unhealthy Days,Hazardous Days,Max AQI,90th Percentile AQI,Median AQI,Days CO,Days NO2,Days Ozone,Days PM2.5,Days PM10
+Georgia,Fulton,13121,2016,366,202,151,12,1,0,0,156,71,48,0,24,103,239,0
+Georgia,Fulton,13121,2017,365,210,149,6,0,0,0,136,70,48,0,22,114,229,0
+Georgia,Fulton,13121,2018,365,232,129,4,0,0,0,133,66,44,1,35,114,215,0
+Georgia,Fulton,13121,2019,365,192,166,6,1,0,0,172,74,49,0,19,130,216,0
+Georgia,Fulton,13121,2020,366,257,107,2,0,0,0,125,62,43,0,24,82,260,0
+Georgia,Fulton,13121,2021,365,224,137,4,0,0,0,150,67,44,0,11,94,260,0
+Georgia,Fulton,13121,2022,365,254,108,2,1,0,0,169,62,44,0,15,129,221,0

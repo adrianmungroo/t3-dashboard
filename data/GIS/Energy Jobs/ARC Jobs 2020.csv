@@ -1,0 +1,12 @@
+﻿State,State,FIPS,County Name, Solar , Wind , Hydroelectric , Low-Impact Hydroelectric , Natural Gas , Coal , Oil & Other FF , Other Generation, Traditional TDS , Storage , Smart Grid , Micro Grid & Other Grid Mod , Coal , Petroleum , Natural Gas , Woody Biomass , Corn Ethanol , Other Clean Fuels , Other Fuels, ENERGY STAR & Efficient Lighting , Traditional HVAC , High Efficiency HVAC & Renewable H&C , Advanced Materials & Insulation , Other Energy Efficiency, Motor Vehicles
+GA,Georgia,13057,Cherokee County,11,10,0,0,0,0,0,59,249,26,0,23,0,49,0,0,0,0,15,175,228,346,117,10,754
+GA,Georgia,13063,Clayton County,35,10,0,0,0,0,0,52,1190,52,10,64,0,36,0,0,0,0,13,80,104,200,78,0,2129
+GA,Georgia,13067,Cobb County,356,82,75,18,526,0,22,410,2237,166,19,137,42,411,45,0,37,35,101,857,1312,2066,822,67,4501
+GA,Georgia,13089,DeKalb County,907,154,68,16,634,582,17,756,1396,102,0,78,28,339,31,0,22,21,67,384,636,1014,393,48,4183
+GA,Georgia,13097,Douglas County,73,0,0,0,0,0,0,38,345,0,0,11,0,21,0,0,0,0,0,66,84,155,56,0,786
+GA,Georgia,13113,Fayette County,0,10,0,0,0,0,0,59,281,37,0,34,0,41,0,0,0,0,10,117,180,288,96,0,820
+GA,Georgia,13117,Forsyth County,44,18,15,0,0,0,0,91,686,37,0,29,10,115,44,0,0,0,25,198,272,470,193,14,1131
+GA,Georgia,13121,Fulton County,713,228,188,44,0,0,78,803,5223,302,422,255,122,1047,168,11,105,102,291,1445,2583,3414,1302,119,6558
+GA,Georgia,13135,Gwinnett County,326,86,81,19,48,0,32,453,1739,159,25,297,62,362,41,15,37,36,147,818,1176,1938,719,59,5440
+GA,Georgia,13151,Henry County,15,0,0,0,0,0,0,27,1136,0,0,0,0,23,0,0,0,0,0,56,79,149,56,8069,885
+GA,Georgia,13247,Rockdale County,28,0,0,0,0,0,0,42,450,63,13,52,0,28,0,0,0,0,0,92,124,234,62,0,436

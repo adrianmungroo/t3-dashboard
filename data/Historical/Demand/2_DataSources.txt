@@ -1,0 +1,10 @@
+(2) Demand
+
+SOCO Sold MWh.csv
+------------------------------------------------------------------------------------------------------
+Type: Time Series
+Spatial Region: SOCO
+Description: Total MWh sold to each customer type in SOCO, 2016-2022
+Data Source: EIA Form 861 | Sales_Ult_Cust_YEAR.xlsx | https://www.eia.gov/electricity/data/eia861/
+Methodology: Summed Sales with BA Code = SOCO for residential, commercial, and industrial categories.
+Notes: "Customer" equals 1 meter, not 1 person 

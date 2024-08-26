@@ -1,0 +1,8 @@
+﻿CBSA,CBSA Code,Year,Days with AQI,Good Days,Moderate Days,Unhealthy for Sensitive Groups Days,Unhealthy Days,Very Unhealthy Days,Hazardous Days,Max AQI,90th Percentile AQI,Median AQI,Days CO,Days NO2,Days Ozone,Days PM2.5,Days PM10
+"Atlanta-Sandy Springs-Roswell, GA",12060,2016,366,105,229,28,4,0,0,200,97,57,0,2,153,211,0
+"Atlanta-Sandy Springs-Roswell, GA",12060,2017,365,174,180,11,0,0,0,150,80,51,0,15,163,187,0
+"Atlanta-Sandy Springs-Roswell, GA",12060,2018,365,211,144,10,0,0,0,133,77,47,0,12,157,196,0
+"Atlanta-Sandy Springs-Roswell, GA",12060,2019,365,162,184,18,1,0,0,172,87,52,0,9,171,185,0
+"Atlanta-Sandy Springs-Roswell, GA",12060,2020,366,241,122,3,0,0,0,125,65,44,0,11,151,204,0
+"Atlanta-Sandy Springs-Roswell, GA",12060,2021,365,209,148,8,0,0,0,150,77,47,0,13,149,203,0
+"Atlanta-Sandy Springs-Roswell, GA",12060,2022,365,211,145,8,1,0,0,169,71,47,0,13,162,190,0

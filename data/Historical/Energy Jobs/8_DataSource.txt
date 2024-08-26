@@ -1,0 +1,18 @@
+(8) Energy Jobs
+
+.csv Files
+State Level Jobs.csv
+--------------------------------------------------------------------------------------------------
+Type: Time Series
+Description: Energy jobs in selected sectors reported.
+Data Source: https://www.energy.gov/policy/us-energy-employment-jobs-report-useer
+Methodology: Pulled from graphics in state report pdfs from each year. Data from year prior to name of report (e.g. 2023 report has 2022 data). Clean jobs calculated using jobs types consistent with USEER.
+Notes: The 2022 data breaks down jobs into more categories. Previous years have 0 listed for some jobs, meaning data is missing.  
+
+ARC Jobs.csv
+--------------------------------------------------------------------------------------------------
+Type: Time Series
+Description: Energy Jobs by county in selected sectors
+Data Source: https://www.energy.gov/policy/us-energy-employment-jobs-report-useer
+Methodology: Removed all counties not in GA. Clean jobs calculated using jobs types consistent with USEER.
+Notes: County Level Data does not have as many subdivisions as the state level. If there are 0 jobs in a county, <10 is recorded instead.

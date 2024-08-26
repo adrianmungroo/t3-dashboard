@@ -1,0 +1,9 @@
+(7) Reliability
+
+THERE IS CURRENTLY NO DATASET FOR RELIABILITY BECAUSE THE DATA WE HAVE IS PROPRIATARY AND CANNOT BE SHARED
+
+RealiabilityGACountyYEAR.xlsx
+Description: Reports grid reliability metrics (SAIDI and CMIN) for each GA county
+Data Source: Poweroutage.us
+Methodology: Cannot explicitly say, but SAIDI and CMIN are derived statistics from raw data 
+Note: This source is proprietary and we can't provide a link to the raw data. Other reliability metrics can be provided beyond SAIDI and CMIN. 

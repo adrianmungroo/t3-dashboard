@@ -1,0 +1,17 @@
+(8) Energy Jobs
+
+GA USEER YEAR County.csv
+--------------------------------------------------------------------------------------------------
+Type: County
+Description: Energy Jobs by county in selected sectors
+Data Source: https://www.energy.gov/policy/us-energy-employment-jobs-report-useer
+Methodology: Removed all counties not in GA. Clean jobs calculated using jobs types consistent with USEER.
+Notes: County Level Data does not have as many subdivisions as the state level. 0 values were originally reported as <10 or missing. Summing these values may not give exactly the same number of the State Level
+
+ARC Jobs YEAR.csv
+--------------------------------------------------------------------------------------------------
+Type: County
+Description: Energy Jobs by county in selected sectors
+Data Source: https://www.energy.gov/policy/us-energy-employment-jobs-report-useer
+Methodology: Removed all counties not in GA. Clean jobs calculated using jobs types consistent with USEER.
+Notes: County Level Data does not have as many subdivisions as the state level. If there are 0 jobs in a county, <10 is recorded instead.

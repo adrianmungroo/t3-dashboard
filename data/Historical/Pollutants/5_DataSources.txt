@@ -1,0 +1,26 @@
+(5) Pollutants
+
+Atlanta CBSA AQI BasicTrend.csv
+------------------------------------------------------------------------------------------------------------
+Type: Time Series
+Spatial Range: Atlanta CBSA
+Description: Reports # of days where PM 2.5 and Ozone make Air Quality Unhealthy
+Data Source: https://epa.maps.arcgis.com/apps/Cascade/index.html?appid=cf520fd5333749bda7ac415209413cca
+Methodology: Numbers taken from bar chart graphic
+
+Atlanta CBSA AQI Scores.csv
+--------------------------------------------------------------------------------------------------------------
+Type: Time Series
+Spatial Range: Atlanta CBSA
+Description: Reports # of days with unhealthy Air Quality Index, Max AQI score, 90th percentile, and median score.
+Data Source: Annual Air Quality Index Summary | https://aqs.epa.gov/aqsweb/airdata/download_files.html#Annual
+Methodology: Only Atlanta-SandySprings-Roswell Data Kept
+
+AQI_Scores_COUNTYNAME.csv
+-------------------------------------------------------------------------------------------------
+Type: Time Series
+Spatial Range: One County
+Description: Same info as above files, but for 1 county from 2016-2022
+Data Source: Annual Air Quality Index Summary | https://aqs.epa.gov/aqsweb/airdata/download_files.html#Annual
+Methodology: Data points taken from each yearly file and combined 
+Notes: Currently Fulton County is the only file of this type

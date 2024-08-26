@@ -1,0 +1,8 @@
+(3) Green House Gas Emissions
+
+GA Emissions Point.csv
+----------------------------------------------------------------------------------------
+Type: Point
+Source: EPA
+
+Description: Emissions from each emitting plant in GA

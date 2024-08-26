@@ -1,0 +1,11 @@
+(1) Generation
+
+SOCO Annual Generation.csv
+----------------------------------------------------------------------------------------------------
+Type: Time Series
+Spatial Region: SOCO
+Description: Generation totals in MWh by generation technology from 2019 - 2023 across all SOCO
+Data Source: EIA Hourly Electricity Monitor
+| https://www.eia.gov/electricity/gridmonitor/dashboard/electric_overview/US48/US48
+Methodology: Summation of hourly profile over each year
+

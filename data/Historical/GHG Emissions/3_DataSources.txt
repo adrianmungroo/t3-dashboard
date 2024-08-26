@@ -1,0 +1,10 @@
+(3) Green House Gas Emissions
+
+GA_AnnualEmissions.csv
+----------------------------------------------------------------------------------------
+Type: Time Series
+Spatial Region: Georgia
+Description: Mass of CO2, SO2, NOx, and Steam Loads in short tons from 2016 to 2022
+Data Source: https://campd.epa.gov/
+Methodology: Generator level data is summed across all GA emitting plants
+Note: Generation data has been cross validated with EIA data. Missing Data for one point

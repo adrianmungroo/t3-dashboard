@@ -4,6 +4,10 @@ import geopandas as gpd
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import folium
+from streamlit_folium import st_folium
+import matplotlib.colors as mcolors
+import plotly.express as px
 
 # Defining page
 
@@ -15,12 +19,87 @@ st.set_page_config(
     page_icon="📊",
     layout='wide'
 )
-st.title('Hello World')
+st.title('Task 3 Dashboard')
 st.caption(APP_SUBTITLE)
 
-# Dictionary defining what the types of each dataset
+# Column dictionary for all the selectable datasets
 
-data_dictionary = {'Energy Burden' : ['gis','historical'], 'Jobs' : ['historical'], 'PM25' : ['historical']}
+column_dictionary = {'GIS' : {'counties': ['Energy Burden 2016', 'Energy Burden 2021', 'Energy Burden 2022', 'Solar 2016', 'Coal 2016', 'Natural Gas 2016',
+              'Solar 2020', 'Coal 2020', 'Natural Gas 2020', 'Solar 2021','Coal 2021', 'Natural Gas 2021', 'Solar 2022', 'Coal 2022',
+              'Natural Gas 2022', 'Median AQI 2016', 'Median AQI 2017', 'Median AQI 2018', 'Median AQI 2019', 'Median AQI 2020',
+              'Median AQI 2021', 'Median AQI 2022'],
+ 'tracts': ['DAC Boolean', 'Energy Burden 2016', 'Energy Burden 2021','Energy Burden 2022']},
+ 'Historical' : ['SOCO Consumer Cost', 'SOCO Sold MWh', 'State Level Jobs', 'SOCO Annual Generation', 'GA_AnnualEmissions', 'AQI Scores Fulton']}
+
+# Helper Functions
+
+def get_color(value, min_value, max_value, color_scale):
+    if value is None:
+        return '#000000'
+    normalized = (value - min_value) / (max_value - min_value)
+    cmap = plt.get_cmap(color_scale)
+    color = mcolors.to_hex(cmap(normalized))
+    return color
+
+def plotGISGraph(chosen, subgroup, key_suffix):
+    data = gpd.read_file(f'data/GIS/{subgroup}.geojson')
+    data_json = data.to_json()
+    column_choice = chosen  # Just a reassignment
+
+    m = folium.Map(prefer_canvas=True, zoom_control=False, 
+                   tiles='http://tile.openstreetmap.org/{z}/{x}/{y}.png', 
+                   attr='basemap-choice',
+                   location=[32.9, -82.91], zoom_start=7)
+    
+    if column_choice:
+        min_value = data[column_choice].min()
+        max_value = data[column_choice].max()  
+
+        def style_function(feature):
+            value = feature['properties'][column_choice]
+            color = get_color(value, min_value, max_value, 'Reds')
+            return {
+                'fillColor': color,
+                'color': 'black',
+                'weight': 1,
+                'fillOpacity': 1
+            }  
+        
+        folium.GeoJson(
+            data_json,
+            style_function=style_function,
+            tooltip=folium.GeoJsonTooltip(
+                fields=[column_choice],  # 'name' or any other property in your GeoJSON, and column_choice for data values
+                aliases=[column_choice],  # Optional: aliases for the fields
+                localize=True,
+                sticky=True
+            ),
+            name=f'{column_choice}'
+        ).add_to(m)
+    
+    st_folium(m, width=750, height=500, key=f'map_{key_suffix}')
+
+def plotHistoricalGraph(name, key_suffix):
+
+    df = pd.read_csv(f'data/Historical/{name}.csv')
+
+    fig = px.line(df, x='Year', y=df.columns[1:], markers=True, title=f"{name}")
+
+    # Update traces to start with only the first series visible
+    for i, trace in enumerate(fig.data):
+        if i == 0:  # Keep the first trace visible
+            trace.visible = True
+        else:       # Hide all other traces
+            trace.visible = 'legendonly'
+
+    # Customize the layout for better readability
+    fig.update_layout(
+        xaxis_title='Year',
+        yaxis_title='Values',
+        legend_title='Series',
+        hovermode='x unified',  # Show all values when hovering over a point
+    )
+    st.plotly_chart(fig, use_container_width=True, key=f'graph_{key_suffix}')
 
 # Define state
 
@@ -52,26 +131,35 @@ with column1:
         st.session_state.gis_filter_1 = False
     
     if st.session_state.gis_filter_1:
-        layer_list = [item for item in data_dictionary.keys() if 'gis' in data_dictionary[item]]
+        layer_list = column_dictionary['GIS']['counties'] + column_dictionary['GIS']['tracts']
         chosen = st.selectbox('Select a layer', layer_list, key = 'gis_list_1')
-        st.write(f"WE WILL PLOT A MAP OF {chosen} HERE")
-    
+        # st.write(f"WE WILL PLOT A MAP OF {chosen} HERE")
+
+        if chosen in column_dictionary['GIS']['counties']:
+            subgroup = 'counties'
+        elif chosen in column_dictionary['GIS']['tracts']:
+            subgroup = 'tracts'
+        
+        # st.write(f"The data is in the **_{subgroup}_** subfolder")
+
+        plotGISGraph(chosen, subgroup, 1)
+
     elif st.session_state.historical_filter_1:
-        layer_list = [item for item in data_dictionary.keys() if 'historical' in data_dictionary[item]]
+        layer_list = column_dictionary['Historical']
         chosen = st.selectbox('Select a layer', layer_list, key = 'hist_list_1')
-        st.write(f"WE WILL PLOT A GRAPH OF {chosen} HERE")
+        # st.write(f"WE WILL PLOT A GRAPH OF {chosen} HERE")
+
+        plotHistoricalGraph(chosen, 1)
 
 
-
-
+##########################################
+##########################################
+#########      ############       ########
 ##########################################
 ##########################################
 ##########################################
 ##########################################
-##########################################
-##########################################
-##########################################
-##########################################
+##################       #################
 ##########################################
 
 
@@ -87,11 +175,23 @@ with column2:
         st.session_state.gis_filter_2 = False
     
     if st.session_state.gis_filter_2:
-        layer_list = [item for item in data_dictionary.keys() if 'gis' in data_dictionary[item]]
+        layer_list = column_dictionary['GIS']['counties'] + column_dictionary['GIS']['tracts']
         chosen = st.selectbox('Select a layer', layer_list, key = 'gis_list_2')
-        st.write(f"WE WILL PLOT A MAP OF {chosen} HERE")
+        # st.write(f"WE WILL PLOT A MAP OF {chosen} HERE")
+
+        if chosen in column_dictionary['GIS']['counties']:
+            subgroup = 'counties'
+        elif chosen in column_dictionary['GIS']['tracts']:
+            subgroup = 'tracts'
+        
+        # st.write(f"The data is in the **_{subgroup}_** subfolder")
+
+        plotGISGraph(chosen, subgroup, 2)
     
     elif st.session_state.historical_filter_2:
-        layer_list = [item for item in data_dictionary.keys() if 'historical' in data_dictionary[item]]
+        layer_list = column_dictionary['Historical']
         chosen = st.selectbox('Select a layer', layer_list, key = 'hist_list_2')
-        st.write(f"WE WILL PLOT A GRAPH OF {chosen} HERE")
+        # st.write(f"WE WILL PLOT A GRAPH OF {chosen} HERE")
+
+        plotHistoricalGraph(chosen, 1)
+

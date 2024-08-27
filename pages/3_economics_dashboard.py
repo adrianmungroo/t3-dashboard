@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 # Defining page
 
 APP_TITLE = "Highlight - Solar's Growth and Coal's Decline"
-APP_SUBTITLE = "Jake Churchill, Dr. Richard Simmons"
+APP_SUBTITLE = "Jake Churchill, Dr. Richard Simmons, Chenghao Duan"
 
 st.set_page_config(
     page_title=APP_TITLE,
@@ -35,7 +35,7 @@ yearsjobs = jobsdata['Year']
 solarjobs = jobsdata['Solar']
 coaljobs = jobsdata['Coal']
 
-GenerationData = pd.read_csv(r'data/Historical/Generation/SOCO Annual Generation.csv')
+GenerationData = pd.read_csv('data//Historical//Generation//SOCO Annual Generation.csv')
 yearsGen = GenerationData['Year']
 solarGen = GenerationData['Solar'] / 1e6 #Converting from MWh to TWh
 coalGen = GenerationData['Coal'] / 1e6
@@ -63,16 +63,16 @@ st.write('### Where are solar jobs being created?')
 
 ## Second Figure
 # Map of Change in SOLAR JOBS BY COUNTY from 2016 to 2022 
-jobs2016 = pd.read_csv(r'data/GIS/Energy Jobs/GA USEER County 2016.csv')
+jobs2016 = pd.read_csv('data\\GIS\\Energy Jobs\\GA USEER County 2016.csv')
 solarjobs2016 = jobs2016[' Solar ']
-jobs2022 = pd.read_csv(r'data/GIS/Energy Jobs/GA USEER County 2022.csv')
+jobs2022 = pd.read_csv('data\\GIS\\Energy Jobs\\GA USEER County 2022.csv')
 solarjobs2022 = jobs2022[' Solar '] #Named " Solar " actually
 solarjobsdiff = solarjobs2022 - solarjobs2016
 
 #Make it a dataframe 
 solarjobschange = pd.DataFrame({'FIPS':jobs2016['FIPS'], 'Solar':solarjobsdiff})
 #Turn this into a geojson to plot
-geojson = gpd.read_file(r'data/GIS/Geojsons/georgia-with-county-boundaries_1092.geojson') #Counties in GA
+geojson = gpd.read_file('data\\GIS\\Geojsons\\georgia-with-county-boundaries_1092.geojson') #Counties in GA
 
 # Ensure FIPS codes in both files are in the same format (string with leading zeros)
 solarjobschange['FIPS'] = solarjobschange['FIPS'].astype(str).str.zfill(5)

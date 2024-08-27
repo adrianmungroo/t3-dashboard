@@ -8,13 +8,17 @@ def compute_contribution(dbt, tip_point, industrial_consumption, datacenter_offs
     else:
         return industrial_consumption + datacenter_offset
 
-
 APP_TITLE = "Datacenter Acquisition Simulator"
 APP_SUBTITLE = "David Solano, Adrian Mungroo, Hyun Woo Kim"
 
+st.set_page_config(
+    page_title=APP_TITLE,
+    page_icon="📊",
+    layout='wide'
+)
+
 st.title(APP_TITLE)
 st.caption(APP_SUBTITLE)
-
 
 data_industrial = pd.read_csv(r'data/Consumed_industrial_kW.csv')
 

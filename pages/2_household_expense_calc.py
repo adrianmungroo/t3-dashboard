@@ -1,12 +1,18 @@
 import streamlit as st
 import pandas as pd
 
-
 APP_TITLE = "Household Energy Expenditure Simulator"
 APP_SUBTITLE = "David Solano, Adrian Mungroo, Hyun Woo Kim"
 
+st.set_page_config(
+    page_title=APP_TITLE,
+    page_icon="📊",
+    layout='wide'
+)
+
 st.title(APP_TITLE)
 st.caption(APP_SUBTITLE)
+
 
 st.write("### Input Parameters")
 col1, col2 = st.columns(2)

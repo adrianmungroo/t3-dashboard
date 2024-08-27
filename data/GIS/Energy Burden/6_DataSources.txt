@@ -1,15 +1,29 @@
 (6) Energy Burden
 
-Because the Methodologies between 2016 and 2021/2022 are different, it would be unwise to use the data to compare specific values across years. For this reason, there are no time series files for this data.
+*****Because the Methodologies between 2016 and 2021/2022 are different, it would be unwise to use the data to compare specific values across years. For this reason, there are no time series files for this data.*****
 
 ElectricityBurdenGA_Tract2021.csv and ElectricityBurdenGA_Tract2022.csv
 -----------------------------------------------------------------------------------------------------
 Type: Tract
 Description: Percent of income spent on electricity, annual average
 Data Source: American Community Survey 5 year | https://www.census.gov/programs-surveys/acs/news/data-releases.2022.html#list-tab-1133175109
-Methodology: For each tract, took the energy expenditure buckets and multiplied by the average value in that bucket. Need full thought out response here.
+Methodology: For each tract, the total number of households paying electricity is given along with the number of households in each "bucket" of monthly expenditures. The buckets were <50, 50-99, 100-149, 150-199, 200-250, and above 250. 
+From this the total annual electricity spending can be estimated. Dividing this number by Median Income gives energy Burden.
 
-Note: Unclear whether assumptions about multiplying by . Data for electricity expenditures is only available for 2021 and 2022, method can't be used backwards.
+Below is the specific formula used:
+Total_spent_annually = 12*(45*SOCO_Under50 + 75*SOCO_50_99 + 125*SOCO_100_149 + 175*SOCO_150_199 + 225*SOCO_200_250 + 275 * SOCO_Over250);                       
+Electricity_Burden = Total_spent_annually ./ (SOCO_Med_INCOME.*SOCO_Elec_households);
+
+For gas expenditures, the process was similar, but with different buckets. The buckets were <25, 25-49,50-74,75-99,100-149, and above 150.
+The specific formula used:
+Total_spent_annually = 12*(21*SOCO_Under25 + 37*SOCO_25_49 + 62*SOCO_50_74 + 87*SOCO_75_99 + 125*SOCO_100_149 + 160*SOCO_Over150);
+Gas_Burden = Total_spent_annually ./ (SOCO_Med_INCOME.*SOCO_Gas_households);
+
+The sum of gas and electricity burden is energy burden
+
+Notes: 
+In some areas, the number of households in the highest bucket was significant. It's unclear then if the multiplier to that number is representative of actual expenditures. Households pay much more that $250 for electricity a month are not captured in the data set. 
+Data for electricity expenditures is only available for 2021 and 2022, so this method can't be used before these years.
 
 ElectricityBurdenGA_Counties2021.csv and ElectricityBurdenGA_Counties2022.csv
 -----------------------------------------------------------------------------------------------------
@@ -24,5 +38,5 @@ Type: Tract and County, respectively
 Description: Percent of income spent on electricity, gas, other, and total. Annual average.
 Data Source: https://www.energy.gov/scep/slsc/lead-tool
 Methodology: See NREL Documentation - https://www.nrel.gov/docs/fy19osti/74249.pdf
-Note: Methodology theoretically reproducible using ACS data, but would be an undertaking
+Note: Methodology theoretically reproducible using ACS data, but would be an undertaking. 
 

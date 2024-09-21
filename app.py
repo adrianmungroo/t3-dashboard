@@ -24,12 +24,19 @@ st.caption(APP_SUBTITLE)
 
 # Column dictionary for all the selectable datasets
 
+# column_dictionary = {'GIS' : {'counties': ['Energy Burden 2016', 'Energy Burden 2021', 'Energy Burden 2022', 'Solar 2016', 'Coal 2016', 'Natural Gas 2016',
+#               'Solar 2020', 'Coal 2020', 'Natural Gas 2020', 'Solar 2021','Coal 2021', 'Natural Gas 2021', 'Solar 2022', 'Coal 2022',
+#               'Natural Gas 2022', 'Median AQI 2016', 'Median AQI 2017', 'Median AQI 2018', 'Median AQI 2019', 'Median AQI 2020',
+#               'Median AQI 2021', 'Median AQI 2022'],
+#  'tracts': ['DAC Boolean', 'Energy Burden 2016', 'Energy Burden 2021','Energy Burden 2022']},
+#  'Historical' : ['SOCO Consumer Cost', 'SOCO Sold MWh', 'State Level Jobs', 'SOCO Annual Generation', 'GA_AnnualEmissions', 'AQI Scores Fulton']}
+
 column_dictionary = {'GIS' : {'counties': ['Energy Burden 2016', 'Energy Burden 2021', 'Energy Burden 2022', 'Solar 2016', 'Coal 2016', 'Natural Gas 2016',
               'Solar 2020', 'Coal 2020', 'Natural Gas 2020', 'Solar 2021','Coal 2021', 'Natural Gas 2021', 'Solar 2022', 'Coal 2022',
               'Natural Gas 2022', 'Median AQI 2016', 'Median AQI 2017', 'Median AQI 2018', 'Median AQI 2019', 'Median AQI 2020',
               'Median AQI 2021', 'Median AQI 2022'],
  'tracts': ['DAC Boolean', 'Energy Burden 2016', 'Energy Burden 2021','Energy Burden 2022']},
- 'Historical' : ['SOCO Consumer Cost', 'SOCO Sold MWh', 'State Level Jobs', 'SOCO Annual Generation', 'GA_AnnualEmissions', 'AQI Scores Fulton']}
+ 'Historical' : ['State Level Jobs', 'GA_AnnualEmissions', 'AQI Scores Fulton']}
 
 # Helper Functions
 

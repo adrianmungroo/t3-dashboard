@@ -33,17 +33,20 @@ data_industrial['Datacenter Contribution (MW)'] = data_industrial.apply(
     lambda x: compute_contribution(x['DBT'], tip_point_F, x['Consumed Industrial'], datacenter_offset, cooling_penalty), axis=1
 )
 
+start_date = pd.Timestamp('2022-01-01')
+data_industrial['DateTime'] = pd.date_range(start=start_date, periods=len(data_industrial), freq='h')
+
 # Create a Plotly figure
 fig = go.Figure()
 
 # Add traces
-fig.add_trace(go.Scatter(x=data_industrial.index, y=data_industrial['Consumed Industrial'], mode='lines', name='Industrial', line=dict(color='blue')))
-fig.add_trace(go.Scatter(x=data_industrial.index, y=data_industrial['Datacenter Contribution (MW)'], mode='lines', name='Industrial + Datacenters', line=dict(color='coral')))
+fig.add_trace(go.Scatter(x=data_industrial['DateTime'], y=data_industrial['Consumed Industrial'], mode='lines', name='Industrial', line=dict(color='blue')))
+fig.add_trace(go.Scatter(x=data_industrial['DateTime'], y=data_industrial['Datacenter Contribution (MW)'], mode='lines', name='Industrial + Datacenters', line=dict(color='coral')))
 
 # Update layout
 fig.update_layout(
     title='Datacenter Power Consumption',
-    xaxis_title='Time of Year (Hour from 1/1/2022)',
+    xaxis_title='Time of Year',
     yaxis_title='Industry Power Consumption (MW)',
     legend=dict(x=0, y=1),
     template='plotly_white'  # Use a clean white template

@@ -26,7 +26,7 @@ col1, col2 = st.columns(2)
 
 datacenter_offset = col1.slider("Datacenter Base Power MW", 0.0, 350.0, 150.0)
 tip_point_F = col2.slider("Tip point (F)", 45, 65, 50)
-cooling_penalty = col1.slider("Cooling Penalty %", 0.0, 30.0, 15.0)
+cooling_penalty = col1.slider("Cooling Penalty %", 0.0, 100.0, 15.0)
 
 data_industrial['Datacenter Contribution (MW)'] = data_industrial.apply(lambda x: compute_contribution(x['DBT'], tip_point_F, x['Consumed Industrial'], datacenter_offset, cooling_penalty), axis=1)
 

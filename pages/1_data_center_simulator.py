@@ -18,9 +18,6 @@ st.set_page_config(
     layout='wide'
 )
 
-# st.title(APP_TITLE)
-st.caption(APP_SUBTITLE)
-
 data_industrial = pd.read_csv(r'data/Consumed_industrial_kW.csv')
 
 col1, col2 = st.columns(2)
@@ -51,3 +48,6 @@ fig.update_layout(
 )
 
 st.plotly_chart(fig)
+
+# st.title(APP_TITLE)
+st.caption(APP_SUBTITLE)

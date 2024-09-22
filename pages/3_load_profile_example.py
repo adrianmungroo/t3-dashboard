@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import plotly.graph_objs as go
 
 APP_TITLE = "Fulton County Load Profile Examples"
-APP_SUBTITLE = "David Solano, Adrian Mungroo, Hyun Woo Kim"
+APP_SUBTITLE = "Adrian Mungroo, Hyun Woo Kim, David Solano"
 
 st.set_page_config(
     page_title=APP_TITLE,

@@ -10,9 +10,6 @@ st.set_page_config(
     layout='wide'
 )
 
-# st.title(APP_TITLE)
-st.caption(APP_SUBTITLE)
-
 
 st.write("### Input Parameters")
 col1, col2 = st.columns(2)
@@ -71,3 +68,6 @@ df = pd.DataFrame({"Household Type": ["Non-DAC","Non-DAC","DAC","DAC"],
                    "Price $ per hour": [cost_total_non_DAC, cost_heating_non_DAC, cost_total_DAC, cost_heating_DAC]})
 
 st.bar_chart(df, x="Household Type", y="Price $ per hour", color="Type", stack=False)
+
+# st.title(APP_TITLE)
+st.caption(APP_SUBTITLE)

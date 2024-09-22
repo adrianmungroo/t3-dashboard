@@ -19,7 +19,7 @@ st.set_page_config(
     page_icon="📊",
     layout='wide'
 )
-st.title('Task 3 Dashboard')
+# st.title('Task 3 Dashboard')
 st.caption(APP_SUBTITLE)
 
 # Column dictionary for all the selectable datasets

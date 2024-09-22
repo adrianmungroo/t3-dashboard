@@ -10,7 +10,7 @@ st.set_page_config(
     layout='wide'
 )
 
-st.title(APP_TITLE)
+# st.title(APP_TITLE)
 st.caption(APP_SUBTITLE)
 
 

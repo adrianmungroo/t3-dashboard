@@ -90,11 +90,16 @@ def plotHistoricalGraph(name, key_suffix):
 
     fig = px.line(df, x='Year', y=df.columns[1:], markers=True, title=f"{name}")
 
-    # Update traces to start with only the first series visible
+    if name == "State Level Jobs":
+        visible_columns = ["Solar", "Electric power generation total"]
+    else:
+        visible_columns = [df.columns[1]]  # Keep the first column visible by default in other cases
+
+    # Update traces to show only specified columns, hide the rest
     for i, trace in enumerate(fig.data):
-        if i == 0:  # Keep the first trace visible
+        if df.columns[i + 1] in visible_columns:  # Check if the column is in the visible list
             trace.visible = True
-        else:       # Hide all other traces
+        else:
             trace.visible = 'legendonly'
 
     # Customize the layout for better readability
@@ -109,7 +114,8 @@ def plotHistoricalGraph(name, key_suffix):
 # Define state
 
 if 'gis_filter_1' not in st.session_state:
-    st.session_state.gis_filter_1 = False
+    st.session_state.gis_filter_1 = True # initialize it as true
+    # st.session_state.historical_filter_1 = False
 
 if 'historical_filter_1' not in st.session_state:
     st.session_state.historical_filter_1 = False
@@ -118,7 +124,7 @@ if 'gis_filter_2' not in st.session_state:
     st.session_state.gis_filter_2 = False
 
 if 'historical_filter_2' not in st.session_state:
-    st.session_state.historical_filter_2 = False
+    st.session_state.historical_filter_2 = True
 
 # Begin app
 

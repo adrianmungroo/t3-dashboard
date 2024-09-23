@@ -10,7 +10,7 @@ def compute_contribution(dbt, tip_point, industrial_consumption, datacenter_offs
         return industrial_consumption + datacenter_offset
 
 APP_TITLE = "Datacenter Acquisition Simulator"
-APP_SUBTITLE = "David Solano, Adrian Mungroo, Hyun Woo Kim"
+APP_SUBTITLE = "Dr. Jung-Ho Lewe, Dr. David Solano, Dr. Scott Duncan, Adrian Mungroo, Hyun Woo Kim, Meiwen Bi"
 
 st.set_page_config(
     page_title=APP_TITLE,

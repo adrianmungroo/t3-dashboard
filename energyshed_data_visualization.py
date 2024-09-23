@@ -12,7 +12,7 @@ import plotly.express as px
 # Defining page
 
 APP_TITLE = "Task 3 Dashboard"
-APP_SUBTITLE = "Adrian Mungroo, David Solano, Hyun Woo Kim"
+APP_SUBTITLE = "Dr. Jung-Ho Lewe, Dr. David Solano, Dr. Scott Duncan, Adrian Mungroo, Hyun Woo Kim, Meiwen Bi"
 
 st.set_page_config(
     page_title=APP_TITLE,

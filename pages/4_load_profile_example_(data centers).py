@@ -14,6 +14,6 @@ st.set_page_config(
 
 st.write('## Winter Datacenter vs Summer Datacenter')
 
-st.image('https://s6.ezgif.com/tmp/ezgif-6-d1f84c2c05.gif', use_column_width=True)
+st.image('https://s6.ezgif.com/tmp/ezgif-6-9abfc313f8.gif', use_column_width=True)
 
 st.caption(APP_SUBTITLE)

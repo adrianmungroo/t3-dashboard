@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 
 APP_TITLE = "Household Energy Expenditure Simulator"
-APP_SUBTITLE = "Dr. Jung-Ho Lewe, Dr. David Solano, Dr. Scott Duncan, Adrian Mungroo, Hyun Woo Kim, Meiwen Bi + Imran Aziz and Yunmei Guan"
+APP_SUBTITLE = "Dr. Jung-Ho Lewe, Dr. David Solano, Dr. Scott Duncan, Adrian Mungroo, Hyun Woo Kim, Meiwen Bi, Imran Aziz and Yunmei Guan"
 
 st.set_page_config(
     page_title=APP_TITLE,

@@ -14,6 +14,13 @@ st.set_page_config(
 
 st.write('## Winter Heatpump Scenarios')
 
-st.image('https://i.imgur.com/E2pR2PY.gif', use_column_width=True)
+st.markdown(
+    """
+    <div style="text-align: center;">
+        <img src="https://i.imgur.com/E2pR2PY.gif" width="750">
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
 st.caption(APP_SUBTITLE)

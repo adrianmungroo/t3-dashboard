@@ -14,7 +14,7 @@ st.set_page_config(
 
 col1, col2, col3 = st.columns(3)
 with col1:
-    st.markdown("<div style='text-align: center;'><h3>No Heatpump</h3></div>", unsafe_allow_html=True)
+    st.markdown("<div style='text-align: center;'><h3>Winter No Heatpump</h3></div>", unsafe_allow_html=True)
     st.markdown(
         """
         <div style="text-align: center;">
@@ -24,7 +24,7 @@ with col1:
         unsafe_allow_html=True
     )
 with col2:
-    st.markdown("<div style='text-align: center;'><h3>Income Based Heatpump</h3></div>", unsafe_allow_html=True)
+    st.markdown("<div style='text-align: center;'><h3>Winter Income Based Heatpump</h3></div>", unsafe_allow_html=True)
     st.markdown(
         """
         <div style="text-align: center;">
@@ -34,7 +34,7 @@ with col2:
         unsafe_allow_html=True
     )
 with col3:
-    st.markdown("<div style='text-align: center;'><h3>Full Heatpump</h3></div>", unsafe_allow_html=True)
+    st.markdown("<div style='text-align: center;'><h3>Winter Full Heatpump</h3></div>", unsafe_allow_html=True)
     st.markdown(
         """
         <div style="text-align: center;">

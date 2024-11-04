@@ -24,7 +24,7 @@ with col1:
         unsafe_allow_html=True
     )
 with col2:
-    st.markdown("<div style='text-align: center;'><h3>Utility Adds More Renewables</h3></div>", unsafe_allow_html=True)
+    st.markdown("<div style='text-align: center;'><h3>Utility Investment in Renewables</h3></div>", unsafe_allow_html=True)
     st.markdown(
         """
         <div style="text-align: center;">

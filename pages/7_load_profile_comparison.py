@@ -18,7 +18,7 @@ with col1:
     st.markdown(
         """
         <div style="text-align: center;">
-            <img src="https://i.imgur.com/TnE4QQC.png" width="620">
+            <img src="https://i.imgur.com/sMmusZQ.png" width="620">
         </div>
         """,
         unsafe_allow_html=True
@@ -28,7 +28,7 @@ with col2:
     st.markdown(
         """
         <div style="text-align: center;">
-            <img src="https://i.imgur.com/sMmusZQ.png" width="620">
+            <img src="https://i.imgur.com/TnE4QQC.png" width="620"> 
         </div>
         """,
         unsafe_allow_html=True

@@ -12,8 +12,7 @@ st.set_page_config(
     layout='wide'
 )
 
-st.write('## Baseline vs Heatpump')
-
+st.markdown("<div style='text-align: center;'><h2>Baseline vs Heatpump</h2></div>", unsafe_allow_html=True)
 st.markdown(
     """
     <div style="text-align: center;">
@@ -23,10 +22,11 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.write('## DAC vs Non DAC household Winter')
+st.write('## DAC vs Non DAC')
 
 col1, col2 = st.columns(2)
 with col1:
+    st.markdown("<div style='text-align: center;'><h4>DAC Household Winter Elec Consumption</h4></div>", unsafe_allow_html=True)
     st.markdown(
         """
         <div style="text-align: center;">
@@ -36,6 +36,8 @@ with col1:
         unsafe_allow_html=True
     )
 with col2:
+    st.markdown("<div style='text-align: center;'><h4>Non-DAC Household Winter Elec Consumption</h4></div>", unsafe_allow_html=True)
+
     st.markdown(
         """
         <div style="text-align: center;">

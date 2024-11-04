@@ -12,12 +12,11 @@ st.set_page_config(
     layout='wide'
 )
 
-st.write('## Winter Datacenter vs Summer Datacenter')
-
+st.markdown("<div style='text-align: center;'><h2>Winter Datacenter vs Summer Datacenter</h2></div>", unsafe_allow_html=True)
 st.markdown(
     """
     <div style="text-align: center;">
-        <img src="https://i.imgur.com/kGYMj6r.gif" width="1000">
+        <img src="https://i.imgur.com/kGYMj6r.gif" width="1100">
     </div>
     """,
     unsafe_allow_html=True

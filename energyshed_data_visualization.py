@@ -204,7 +204,7 @@ with column2:
         chosen = st.selectbox('Select a layer', layer_list, key = 'hist_list_2')
         # st.write(f"WE WILL PLOT A GRAPH OF {chosen} HERE")
 
-        plotHistoricalGraph(chosen, 1)
+        plotHistoricalGraph(chosen, 2)
 
 # st.title('Task 3 Dashboard')
 st.caption(APP_SUBTITLE)

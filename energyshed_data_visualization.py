@@ -128,6 +128,14 @@ if 'historical_filter_2' not in st.session_state:
 
 # Begin app
 
+st.write("""
+# Welcome to the Task 3 Dashboard!
+
+##### This interactive tool is designed to help you explore and visualize important data related to energy and environmental metrics in Georgia. 
+
+##### Use the buttons below to switch between GIS data on maps and historical trends on graphs.
+""")
+
 column1, column2 = st.columns(2)
 
 with column1:
@@ -144,21 +152,17 @@ with column1:
     if st.session_state.gis_filter_1:
         layer_list = column_dictionary['GIS']['counties'] + column_dictionary['GIS']['tracts']
         chosen = st.selectbox('Select a layer', layer_list, key = 'gis_list_1')
-        # st.write(f"WE WILL PLOT A MAP OF {chosen} HERE")
 
         if chosen in column_dictionary['GIS']['counties']:
             subgroup = 'counties'
         elif chosen in column_dictionary['GIS']['tracts']:
             subgroup = 'tracts'
-        
-        # st.write(f"The data is in the **_{subgroup}_** subfolder")
 
         plotGISGraph(chosen, subgroup, 1)
 
     elif st.session_state.historical_filter_1:
         layer_list = column_dictionary['Historical']
         chosen = st.selectbox('Select a layer', layer_list, key = 'hist_list_1')
-        # st.write(f"WE WILL PLOT A GRAPH OF {chosen} HERE")
 
         plotHistoricalGraph(chosen, 1)
 
@@ -188,23 +192,18 @@ with column2:
     if st.session_state.gis_filter_2:
         layer_list = column_dictionary['GIS']['counties'] + column_dictionary['GIS']['tracts']
         chosen = st.selectbox('Select a layer', layer_list, key = 'gis_list_2')
-        # st.write(f"WE WILL PLOT A MAP OF {chosen} HERE")
 
         if chosen in column_dictionary['GIS']['counties']:
             subgroup = 'counties'
         elif chosen in column_dictionary['GIS']['tracts']:
             subgroup = 'tracts'
-        
-        # st.write(f"The data is in the **_{subgroup}_** subfolder")
 
         plotGISGraph(chosen, subgroup, 2)
     
     elif st.session_state.historical_filter_2:
         layer_list = column_dictionary['Historical']
         chosen = st.selectbox('Select a layer', layer_list, key = 'hist_list_2')
-        # st.write(f"WE WILL PLOT A GRAPH OF {chosen} HERE")
 
         plotHistoricalGraph(chosen, 2)
 
-# st.title('Task 3 Dashboard')
 st.caption(APP_SUBTITLE)

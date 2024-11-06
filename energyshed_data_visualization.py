@@ -207,4 +207,5 @@ with column2:
 
         plotHistoricalGraph(chosen, 2)
 
+st.divider()
 st.caption(APP_SUBTITLE)

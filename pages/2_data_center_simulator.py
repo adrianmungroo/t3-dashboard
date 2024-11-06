@@ -82,7 +82,5 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-
-
-
+st.divider()
 st.caption(APP_SUBTITLE)

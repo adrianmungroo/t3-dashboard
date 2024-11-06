@@ -135,6 +135,7 @@ st.write("""
 
 ##### Use the buttons below to switch between GIS data on maps and historical trends on graphs.
 """)
+st.divider()
 
 column1, column2 = st.columns(2)
 

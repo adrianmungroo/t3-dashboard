@@ -20,10 +20,28 @@ st.set_page_config(
 
 data_industrial = pd.read_csv(r'data/Consumed_industrial_kW.csv')
 
+st.markdown(
+        """<style>
+    div[class*="stSlider"] > label > div[data-testid="stMarkdownContainer"] > p {
+        font-size: 20px;
+    }
+        </style>
+        """, unsafe_allow_html=True)
+
+st.header('Data Center Simulator')
+st.markdown('##### This tool allows you to simulate the electrical demand impacts of adding datacenters to Fulton County, Georgia.')
+st.markdown('##### Adjust the sliders to change parameters such as:')
+st.markdown("""
+- Datacenter Base Power - This is the minimum amount of power that a datacenter consistently needs to operate.
+- Tip Point - The temperature threshold at which additional cooling starts to kick in.
+- Cooling Penalty - Quantifies the extra energy needed to cool the datacenter when it gets hotter than the Tip Point.  
+""")
+st.divider()
+
 col1, col2 = st.columns(2)
 
 datacenter_offset = col1.slider("Datacenter Base Power MW", 0.0, 350.0, 150.0)
-tip_point_F = col2.slider("Tip point (F)", 45, 65, 50)
+tip_point_F = col2.slider("Tip Point (F)", 45, 65, 50)
 cooling_penalty = col1.slider("Cooling Penalty %", 0.0, 100.0, 15.0)
 
 data_industrial['Datacenter Contribution (MW)'] = data_industrial.apply(
@@ -40,7 +58,6 @@ fig.add_trace(go.Scatter(x=data_industrial['DateTime'], y=data_industrial['Consu
 fig.add_trace(go.Scatter(x=data_industrial['DateTime'], y=data_industrial['Datacenter Contribution (MW)'], mode='lines', name='Industrial + Datacenters', line=dict(color='coral')))
 
 fig.update_layout(
-    title='Datacenter Power Consumption',
     xaxis_title='Time of Year',
     yaxis_title='Industry Power Consumption (MW)',
     legend=dict(x=0, y=1),
@@ -49,5 +66,23 @@ fig.update_layout(
 
 st.plotly_chart(fig)
 
-# st.title(APP_TITLE)
+st.divider()
+
+st.header("Spatio-temporal Simulation of Fulton Datacenter Projected Energy Usage")
+st.markdown('##### This visualization was made possible by using datacenter location data obtained from [Drawdown Georgia ](https://drawdownga.gatech.edu/datacenters/)')
+
+
+st.markdown("<div style='text-align: center;'><h4>Winter Datacenter vs Summer Datacenter</h2></div>", unsafe_allow_html=True)
+st.markdown(
+    """
+    <div style="text-align: center;">
+        <img src="https://i.imgur.com/kGYMj6r.gif" width="1100">
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+
+
+
 st.caption(APP_SUBTITLE)

@@ -72,7 +72,7 @@ st.plotly_chart(fig)
 
 st.divider()
 
-st.header("Spatio-temporal Simulation of Fulton Datacenter Projected Energy Usage")
+st.header("Spatio-temporal Forecast of Fulton Datacenter Energy Usage")
 st.markdown('##### This analysis assumed datacenter locations from [Drawdown Georgia](https://drawdownga.gatech.edu/datacenters/) but this count is obsolete in comparison to [Data Center Map](https://www.datacentermap.com/usa/georgia/).')
 
 

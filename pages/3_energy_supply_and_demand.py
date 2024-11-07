@@ -14,7 +14,7 @@ st.set_page_config(
 
 st.header('Energy Supply and Demand Scenarios')
 st.markdown("""
-##### This visualization shows how Atlanta's energy landscape might change under different scenarios. We compare three key situations:
+##### This mock outcome shows how the energy landscape can change under different scenarios. We compare three key situations:
 """)
 
 c1,c2,c3 = st.columns(3)
@@ -27,16 +27,20 @@ c1.markdown("""
 
 c2.markdown("""
 ###### Utility-Led Changes (Left):
-- Shows what happens if power companies lead the energy transition
+- Shows what happens if power companies lead the green energy transition
 - Focuses on large-scale renewable projects
-- Reflects traditional utility planning approaches
 """)
 
 c3.markdown("""
-###### Customer-Driven Changes (Right):
-- Shows what happens when customers adopt new technologies
-- Includes impacts of solar panels, energy storage, and smart devices
+###### Community-Driven Changes (Right):
+- Shows what happens when customers adopt new behind-the-meter (BTM) technologies
+- Includes impacts of renewables, energy storage, and smart devices
 - Reflects a more distributed energy future
+""")
+
+st.markdown("""
+##### Please observe the black triangle triangle ▲ which indicates the cost and level of induced pollution of the associated fuel mix.
+##### NOTE: None of the following results are empirically accurate, nor are they drawn to scale. They are mockups for conceptual purposes. 
 """)
 
 st.divider()
@@ -83,15 +87,14 @@ with right:
     )
 
 st.divider()
-st.header('Impact Metrics')
 st.markdown("""
-##### We measure the effects of each scenario across several key areas:
+##### Our tool aims to capture and measure the following metrics for each scenario:
 """)
 
 c1,c2 = st.columns(2)
 
 c1.markdown("""
-###### Infrastructure Focused Studies
+##### Infrastructure Focused Studies
 - GHG Emissions
 - Utility Electricity Cost
 - Electrical System Reliability
@@ -99,7 +102,7 @@ c1.markdown("""
 """)
 
 c2.markdown("""
-###### EEEJ Focused Studies
+##### EEEJ Focused Studies
 - Consumer Electrical Cost
 - Energy Equity for DACs
 - Jobs and Workforce Development                                    

@@ -33,7 +33,7 @@ column_dictionary = {'GIS' : {'counties': ['Energy Burden 2016', 'Energy Burden 
               'Solar 2020', 'Coal 2020', 'Natural Gas 2020', 'Solar 2021','Coal 2021', 'Natural Gas 2021', 'Solar 2022', 'Coal 2022',
               'Natural Gas 2022', 'Median AQI 2016', 'Median AQI 2017', 'Median AQI 2018', 'Median AQI 2019', 'Median AQI 2020',
               'Median AQI 2021', 'Median AQI 2022'],
- 'tracts': ['DAC Boolean', 'Energy Burden 2016', 'Energy Burden 2021','Energy Burden 2022']},
+ 'tracts': ['DAC Boolean','Energy Burden 2022 Tract']},
  'Historical' : ['State Level Jobs', 'GA_AnnualEmissions', 'AQI Scores Fulton']}
 
 # Helper Functions
@@ -159,7 +159,7 @@ with column1:
     
     if st.session_state.gis_filter_1:
         layer_list = column_dictionary['GIS']['counties'] + column_dictionary['GIS']['tracts']
-        chosen = st.selectbox('Click to select a dataset below', layer_list, key = 'gis_list_1')
+        chosen = st.selectbox('Click to select a dataset below', sorted(layer_list), key = 'gis_list_1', index=5)
 
         if chosen in column_dictionary['GIS']['counties']:
             subgroup = 'counties'
@@ -170,7 +170,7 @@ with column1:
 
     elif st.session_state.historical_filter_1:
         layer_list = column_dictionary['Historical']
-        chosen = st.selectbox('Click to select a dataset below', layer_list, key = 'hist_list_1')
+        chosen = st.selectbox('Click to select a dataset below', sorted(layer_list), key = 'hist_list_1')
 
         plotHistoricalGraph(chosen, 1)
 
@@ -199,7 +199,7 @@ with column2:
     
     if st.session_state.gis_filter_2:
         layer_list = column_dictionary['GIS']['counties'] + column_dictionary['GIS']['tracts']
-        chosen = st.selectbox('Click to select a dataset below', layer_list, key = 'gis_list_2')
+        chosen = st.selectbox('Click to select a dataset below', sorted(layer_list), key = 'gis_list_2')
 
         if chosen in column_dictionary['GIS']['counties']:
             subgroup = 'counties'
@@ -210,7 +210,7 @@ with column2:
     
     elif st.session_state.historical_filter_2:
         layer_list = column_dictionary['Historical']
-        chosen = st.selectbox('Click to select a dataset below', layer_list, key = 'hist_list_2')
+        chosen = st.selectbox('Click to select a dataset below', sorted(layer_list), key = 'hist_list_2', index=2)
 
         plotHistoricalGraph(chosen, 2)
 

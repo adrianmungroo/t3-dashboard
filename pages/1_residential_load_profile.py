@@ -15,7 +15,7 @@ st.set_page_config(
 st.header('Residential Load Profile Examples and Comparison')
 
 st.markdown("""
-##### This visualization demonstrates how Winter residential energy consumption patterns vary across Fulton County. We compare two key scenarios:
+##### This visualization demonstrates how Winter residential energy consumption patterns vary across Fulton County (with other Metro ATL counties coming soon!). We compare two key scenarios:
 """)
 
 col1, col2 = st.columns(2)
@@ -25,10 +25,14 @@ col1.markdown("""
 """)
 
 col2.markdown("""
-- ##### Right Map (Heat Pump Scenario)
-    - Asks "what if" homes switched to electrical heat pumps
-    - Higher electrical usage due to electric heating
+- ##### Right Map (Heat Pump Conversion Scenario)
+    - Asks "what if" homes switched to heat pumps
     - Demonstrates potential grid impacts of electrification
+    - On-site combustion is significantly reduced or removed entirely
+""")
+
+st.markdown("""
+##### Pay attention to the following gif that changes over time, incorporating dynamic weather data into its simulation.
 """)
 
 st.divider()

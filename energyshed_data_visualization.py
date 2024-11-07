@@ -11,7 +11,7 @@ import plotly.express as px
 
 # Defining page
 
-APP_TITLE = "Task 3 Dashboard"
+APP_TITLE = "Energyshed Dashboard"
 APP_SUBTITLE = "Dr. Jung-Ho Lewe, Dr. David Solano, Dr. Scott Duncan, Adrian Mungroo, Hyun Woo Kim, Meiwen Bi, Imran Aziz and Yunmei Guan"
 
 st.set_page_config(
@@ -129,30 +129,37 @@ if 'historical_filter_2' not in st.session_state:
 # Begin app
 
 st.write("""
-# Welcome to the Task 3 Dashboard!
+# Welcome to the Energyshed Dashboard!
 
-##### This interactive tool is designed to help you explore and visualize important data related to energy and environmental metrics in Georgia. 
-
-##### Use the buttons below to switch between GIS data on maps and historical trends on graphs.
+##### This interactive tool is designed to help you explore and visualize important data and forecasts related to energy and environmental metrics.          
+         
+##### Click the tabs on the left navigational panel to explore the different features this tool provides. 
 """)
+
 st.divider()
+
+st.markdown("""
+##### Please interact with the visualization tool below by clicking the buttons to switch between maps and graphs.
+
+#####  Please click the dropdown menus to visualize different datasets.            
+""")
 
 column1, column2 = st.columns(2)
 
 with column1:
     subcolumn1_1, subcolumn2_1 = st.columns(2) # the underscore 1 is to signify the left main column
 
-    if subcolumn1_1.button('GIS', key = 'gis_button_1'):
+    if subcolumn1_1.button('MAP', key = 'gis_button_1'):
         st.session_state.gis_filter_1 = True
         st.session_state.historical_filter_1 = False 
     
-    if subcolumn2_1.button('Historical', key = 'hist_button_1'):
+    if subcolumn2_1.button('GRAPH', key = 'hist_button_1'):
         st.session_state.historical_filter_1 = True
         st.session_state.gis_filter_1 = False
     
     if st.session_state.gis_filter_1:
         layer_list = column_dictionary['GIS']['counties'] + column_dictionary['GIS']['tracts']
-        chosen = st.selectbox('Select a layer', layer_list, key = 'gis_list_1')
+        chosen = st.selectbox('Click to select a dataset below', layer_list, key = 'gis_list_1')
 
         if chosen in column_dictionary['GIS']['counties']:
             subgroup = 'counties'
@@ -163,7 +170,7 @@ with column1:
 
     elif st.session_state.historical_filter_1:
         layer_list = column_dictionary['Historical']
-        chosen = st.selectbox('Select a layer', layer_list, key = 'hist_list_1')
+        chosen = st.selectbox('Click to select a dataset below', layer_list, key = 'hist_list_1')
 
         plotHistoricalGraph(chosen, 1)
 
@@ -182,17 +189,17 @@ with column1:
 with column2:
     subcolumn1_2, subcolumn2_2 = st.columns(2) # the underscore 2 is to signify the left main column
 
-    if subcolumn1_2.button('GIS', key = 'gis_button_2'):
+    if subcolumn1_2.button('MAP', key = 'gis_button_2'):
         st.session_state.gis_filter_2 = True
         st.session_state.historical_filter_2 = False 
     
-    if subcolumn2_2.button('Historical', key = 'hist_button_2'):
+    if subcolumn2_2.button('GRAPH', key = 'hist_button_2'):
         st.session_state.historical_filter_2 = True
         st.session_state.gis_filter_2 = False
     
     if st.session_state.gis_filter_2:
         layer_list = column_dictionary['GIS']['counties'] + column_dictionary['GIS']['tracts']
-        chosen = st.selectbox('Select a layer', layer_list, key = 'gis_list_2')
+        chosen = st.selectbox('Click to select a dataset below', layer_list, key = 'gis_list_2')
 
         if chosen in column_dictionary['GIS']['counties']:
             subgroup = 'counties'
@@ -203,7 +210,7 @@ with column2:
     
     elif st.session_state.historical_filter_2:
         layer_list = column_dictionary['Historical']
-        chosen = st.selectbox('Select a layer', layer_list, key = 'hist_list_2')
+        chosen = st.selectbox('Click to select a dataset below', layer_list, key = 'hist_list_2')
 
         plotHistoricalGraph(chosen, 2)
 

@@ -1,4 +1,4 @@
-# task3-dashboard
+# energyshed-dashboard
 
 1) Install the requirements.txt file
 

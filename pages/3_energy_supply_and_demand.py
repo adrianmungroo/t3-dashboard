@@ -39,7 +39,7 @@ c3.markdown("""
 """)
 
 st.markdown("""
-##### Please observe the black triangle triangle ▲ which indicates the cost and level of induced pollution of the associated fuel mix.
+##### Please observe the black triangle ▲ which indicates the cost and level of induced pollution of the associated fuel mix.
 ##### NOTE: None of the following results are empirically accurate, nor are they drawn to scale. They are mockups for conceptual purposes. 
 """)
 

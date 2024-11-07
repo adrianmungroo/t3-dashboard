@@ -29,12 +29,16 @@ st.markdown(
         """, unsafe_allow_html=True)
 
 st.header('Data Center Simulator')
-st.markdown('##### This tool allows you to simulate the electrical demand impacts of adding datacenters to Fulton County, Georgia.')
-st.markdown('##### Adjust the sliders to change parameters such as:')
+st.markdown('##### This tool allows you to simulate the electrical demand impacts of datacenters.')
+st.markdown('##### Please adjust the sliders below to change parameters such as:')
 st.markdown("""
 - Datacenter Base Power - This is the minimum amount of power that a datacenter consistently needs to operate.
 - Tip Point - The temperature threshold at which additional cooling starts to kick in.
 - Cooling Penalty - Quantifies the extra energy needed to cool the datacenter when it gets hotter than the Tip Point.  
+""")
+
+st.markdown("""
+##### The graph uses data for the entire year of 2022 quantified at the hourly level. Afterwards, please scroll down to see a map of datacenter demand. 
 """)
 st.divider()
 
@@ -69,7 +73,7 @@ st.plotly_chart(fig)
 st.divider()
 
 st.header("Spatio-temporal Simulation of Fulton Datacenter Projected Energy Usage")
-st.markdown('##### This visualization was made possible by using datacenter location data obtained from [Drawdown Georgia ](https://drawdownga.gatech.edu/datacenters/)')
+st.markdown('##### This analysis assumed datacenter locations from [Drawdown Georgia](https://drawdownga.gatech.edu/datacenters/) but this count is obsolete in comparison to [Data Center Map](https://www.datacentermap.com/usa/georgia/).')
 
 
 st.markdown("<div style='text-align: center;'><h4>Winter Datacenter vs Summer Datacenter</h2></div>", unsafe_allow_html=True)

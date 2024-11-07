@@ -32,7 +32,9 @@ col2.markdown("""
 """)
 
 st.markdown("""
-##### Pay attention to the following gif that changes over time, incorporating dynamic weather data into its simulation.
+##### Pay attention to the following gif that changes over time, incorporating dynamic weather data into its simulation. 
+
+##### Afterwards, please scroll down to observe how socioeconomic differences affect energy usage.
 """)
 
 st.divider()

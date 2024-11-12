@@ -104,6 +104,6 @@ c1.markdown("""
 c2.markdown("""
 ##### EEEJ Focused Studies
 - Consumer Electrical Cost
-- Energy Equity for DACs
+- Energy Equity for Underserved Communities
 - Jobs and Workforce Development                                    
 """)

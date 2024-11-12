@@ -51,15 +51,15 @@ st.markdown(
 
 st.divider()
 
-st.header('DAC vs Non DAC')
+st.header('How does energy burden affect usage?')
 st.markdown("""
-##### The maps above use real data from agent-based models, which simulates individual household energy consumption. To contrast the difference in electrical consumption between DAC and Non-DAC households, two representative households were selected and their respective consumptions were plotted below:
+##### The maps above use real data from agent-based models, which simulates individual household energy consumption. Two representative households were selected based on their energy burdens. Their respective consumptions were plotted below:
 """)
 
 col1, col2 = st.columns(2)
 
 
-col1.markdown("<div style='text-align: center;'><h6>English Avenue Traditional single-family home</h6></div>", unsafe_allow_html=True)
+col1.markdown("<div style='text-align: center;'><h6>High Energy Burden English Avenue SFH</h6></div>", unsafe_allow_html=True)
 col1.markdown(
         """
         <div style="text-align: center;">
@@ -69,11 +69,11 @@ col1.markdown(
         unsafe_allow_html=True
     )
 
-col2.markdown("<div style='text-align: center;'><h6>Midtown modern condominium unit</h6></div>", unsafe_allow_html=True)
+col2.markdown("<div style='text-align: center;'><h6>Low Energy Burden Johns Creek SFH</h6></div>", unsafe_allow_html=True)
 col2.markdown(
         """
         <div style="text-align: center;">
-            <img src="https://i.imgur.com/DIvcc7u.png" width="250">
+            <img src="https://i.imgur.com/GxMoeCY.png" width="250">
         </div>
         """,
         unsafe_allow_html=True
@@ -81,22 +81,22 @@ col2.markdown(
 
 col1, col2 = st.columns(2)
 with col1:
-    st.markdown("<div style='text-align: center;'><h4>DAC Household Winter Elec Consumption</h4></div>", unsafe_allow_html=True)
+    st.markdown("<div style='text-align: center;'><h4>High Energy Burden Consumption</h4></div>", unsafe_allow_html=True)
     st.markdown(
         """
         <div style="text-align: center;">
-            <img src="https://i.imgur.com/4w56NC5.png" width="500">
+            <img src="https://i.imgur.com/n2lKQME.png" width="500">
         </div>
         """,
         unsafe_allow_html=True
     )
 with col2:
-    st.markdown("<div style='text-align: center;'><h4>Non-DAC Household Winter Elec Consumption</h4></div>", unsafe_allow_html=True)
+    st.markdown("<div style='text-align: center;'><h4>Low Energy Burden Consumption</h4></div>", unsafe_allow_html=True)
 
     st.markdown(
         """
         <div style="text-align: center;">
-            <img src="https://i.imgur.com/xrEaG99.png" width="500">
+            <img src="https://i.imgur.com/7c2buib.png" width="500">
         </div>
         """,
         unsafe_allow_html=True

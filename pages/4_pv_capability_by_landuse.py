@@ -3,10 +3,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import plotly.graph_objs as go
 
-link_dict = {'Apartments (Class X)': ["https://i.imgur.com/tg5AmQh.gif", "https://i.imgur.com/a4Kd2Q2.png"],
-             'Schools' : ["https://i.imgur.com/UuVIZE3.gif", "https://i.imgur.com/ZGJvqFL.png"],
-             'Churches' : ["https://i.imgur.com/i9YAmH6.gif", "https://i.imgur.com/3fiFoB5.png"],
-             'Warehouses' : ["https://i.imgur.com/Ou1rFvB.gif", "https://i.imgur.com/qOb6zRG.png"],
+link_dict = {'Apartments (Class X)': ["https://i.imgur.com/tg5AmQh.gif", "https://i.imgur.com/k6UmhER.png"],
+             'Schools' : ["https://i.imgur.com/UuVIZE3.gif", "https://i.imgur.com/KjnreM5.png"],
+             'Churches' : ["https://i.imgur.com/i9YAmH6.gif", "https://i.imgur.com/htlTzNI.png"],
+             'Warehouses' : ["https://i.imgur.com/Ou1rFvB.gif", "https://i.imgur.com/NBayTpO.png"],
              }
 
 APP_TITLE = "PV Capability"

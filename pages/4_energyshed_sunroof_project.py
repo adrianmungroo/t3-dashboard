@@ -9,18 +9,18 @@ link_dict = {'Apartments (Class X)': ["https://i.imgur.com/tg5AmQh.gif", "https:
              'Warehouses' : ["https://i.imgur.com/Ou1rFvB.gif", "https://i.imgur.com/NBayTpO.png"],
              }
 
-APP_TITLE = "PV Capability"
+APP_TITLE = "Energyshed Sunroof Project"
 APP_SUBTITLE = "Dr. Jung-Ho Lewe, Dr. David Solano, Dr. Scott Duncan, Adrian Mungroo, Hyun Woo Kim, Meiwen Bi, Imran Aziz and Yunmei Guan"
 
 st.set_page_config(
     page_title=APP_TITLE,
-    page_icon="📊",
+    page_icon="☀️",
     layout='wide'
 )
 
-st.header('PV Capability')
+st.header('Energyshed Sunroof Project ☀️')
 st.markdown("""
-##### We used temporal data from GT campus PV panels as well as Fulton Parcel Land Use Data as well as Microsoft Buildings Footprint data to develop estimated PV kWh contributions by landuse codes:
+##### Hourly solar irradiation data and Fulton Parcel Land Use data as well as Microsoft Buildings Footprint data to develop estimated Solar kWh
 """)
 
 landuse = st.selectbox('**Select a Land Use below**', ['Apartments (Class X)', 'Schools', 'Churches', 'Warehouses'])

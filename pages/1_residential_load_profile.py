@@ -3,12 +3,12 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import plotly.graph_objs as go
 
-APP_TITLE = "Fulton County Load Profile Examples"
+APP_TITLE = "Fulton County Load Profiles"
 APP_SUBTITLE = "Dr. Jung-Ho Lewe, Dr. David Solano, Dr. Scott Duncan, Adrian Mungroo, Hyun Woo Kim, Meiwen Bi, Imran Aziz and Yunmei Guan"
 
 st.set_page_config(
     page_title=APP_TITLE,
-    page_icon="📊",
+    page_icon="🏡",
     layout='wide'
 )
 

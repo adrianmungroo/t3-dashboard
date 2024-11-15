@@ -8,7 +8,7 @@ APP_SUBTITLE = "Dr. Jung-Ho Lewe, Dr. David Solano, Dr. Scott Duncan, Adrian Mun
 
 st.set_page_config(
     page_title=APP_TITLE,
-    page_icon="📊",
+    page_icon="🔋",
     layout='wide'
 )
 

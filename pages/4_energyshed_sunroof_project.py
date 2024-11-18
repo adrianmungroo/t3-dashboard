@@ -3,9 +3,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import plotly.graph_objs as go
 
-# 'Schools' : ["https://i.imgur.com/UuVIZE3.gif", "https://i.imgur.com/KjnreM5.png", "https://i.imgur.com/KySERIe.png"]
-
 link_dict = {'Apartments (Class X)': ["https://i.imgur.com/tg5AmQh.gif", "https://i.imgur.com/k6UmhER.png", "https://i.imgur.com/0l67XAg.png"],
+             'Schools' : ["https://i.imgur.com/UuVIZE3.gif", "https://i.imgur.com/KjnreM5.png", "https://i.imgur.com/KySERIe.png"],
              'Churches' : ["https://i.imgur.com/i9YAmH6.gif", "https://i.imgur.com/htlTzNI.png", "https://i.imgur.com/2QZg9bt.png"],
              'Warehouses' : ["https://i.imgur.com/Ou1rFvB.gif", "https://i.imgur.com/NBayTpO.png", "https://i.imgur.com/t020zuK.png"],
              }
@@ -24,7 +23,7 @@ st.markdown("""
 ##### Hourly solar irradiation data and Fulton Parcel Land Use data as well as Microsoft Buildings Footprint data to develop estimated Solar kWh
 """)
 
-landuse = st.selectbox('**Select a Land Use below**', ['Apartments (Class X)', 'Schools', 'Churches', 'Warehouses'])
+landuse = st.selectbox('**Select a Land Use below**', ['Apartments (Class X)', 'Churches', 'Warehouses'])
 
 c1,c2 = st.columns(2)
 

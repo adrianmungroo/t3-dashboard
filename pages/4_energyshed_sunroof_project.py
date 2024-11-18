@@ -3,8 +3,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import plotly.graph_objs as go
 
+# 'Schools' : ["https://i.imgur.com/UuVIZE3.gif", "https://i.imgur.com/KjnreM5.png", "https://i.imgur.com/KySERIe.png"]
+
 link_dict = {'Apartments (Class X)': ["https://i.imgur.com/tg5AmQh.gif", "https://i.imgur.com/k6UmhER.png", "https://i.imgur.com/0l67XAg.png"],
-             'Schools' : ["https://i.imgur.com/UuVIZE3.gif", "https://i.imgur.com/KjnreM5.png", "https://i.imgur.com/KySERIe.png"],
              'Churches' : ["https://i.imgur.com/i9YAmH6.gif", "https://i.imgur.com/htlTzNI.png", "https://i.imgur.com/2QZg9bt.png"],
              'Warehouses' : ["https://i.imgur.com/Ou1rFvB.gif", "https://i.imgur.com/NBayTpO.png", "https://i.imgur.com/t020zuK.png"],
              }

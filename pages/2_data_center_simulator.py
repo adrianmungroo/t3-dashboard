@@ -2,12 +2,20 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import plotly.graph_objs as go
+from datacenter import DatacenterConsumptionModel, DATACENTER_COOLING_TECH, DATACENTER_TYPE
 
 def compute_contribution(dbt, tip_point, industrial_consumption, datacenter_offset, cooling_penalty):
     if dbt > tip_point:
         return industrial_consumption + datacenter_offset + (dbt - tip_point) * cooling_penalty
     else:
         return industrial_consumption + datacenter_offset
+
+def compute_datacenter_contribution(datacenter: DatacenterConsumptionModel, dbt: float, hum: float,
+                                    industrial_consumption: float):
+    dbt = (dbt - 32) * (5/9)
+    total_power, _ = datacenter.estimate_power_consumption(dbt, hum)
+
+    return industrial_consumption + total_power
 
 APP_TITLE = "Data Center Simulator"
 APP_SUBTITLE = "Dr. Jung-Ho Lewe, Dr. David Solano, Dr. Scott Duncan, Adrian Mungroo, Hyun Woo Kim, Meiwen Bi, Imran Aziz and Yunmei Guan"
@@ -45,11 +53,24 @@ st.divider()
 col1, col2 = st.columns(2)
 
 datacenter_offset = col1.slider("Datacenter Base Power MW", 0.0, 350.0, 150.0)
-tip_point_F = col2.slider("Tip Point (F)", 45, 65, 50)
+datacenter_working_temperature = col2.slider("Datacenter Working Temp (F)", 69, 110, 77)
 cooling_penalty = col1.slider("Cooling Penalty %", 0.0, 100.0, 15.0)
 
+# Example with units in MW
+power_consumption = datacenter_offset
+datacenter_name = 'Siemens'
+working_temp = (datacenter_working_temperature - 32) * (5/9)
+cooling_tech = DATACENTER_COOLING_TECH.TRADITIONAL_AIR
+datacenter_type = DATACENTER_TYPE.AI
+
+siemens_datacenter = DatacenterConsumptionModel(datacenter_name, power_consumption, working_temp, cooling_tech, datacenter_type, 'Atlanta', 1)
+
+# data_industrial['Datacenter Contribution (MW)'] = data_industrial.apply(
+#     lambda x: compute_contribution(x['DBT'], tip_point_F, x['Consumed Industrial'], datacenter_offset, cooling_penalty), axis=1
+# )
+
 data_industrial['Datacenter Contribution (MW)'] = data_industrial.apply(
-    lambda x: compute_contribution(x['DBT'], tip_point_F, x['Consumed Industrial'], datacenter_offset, cooling_penalty), axis=1
+    lambda x: compute_datacenter_contribution(siemens_datacenter, x['DBT'], x['Rhum'], x['Consumed Industrial']), axis=1
 )
 
 start_date = pd.Timestamp('2022-01-01') # Making hours into datetime since we know the beginning date

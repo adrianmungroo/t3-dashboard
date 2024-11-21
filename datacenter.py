@@ -51,7 +51,7 @@ class DatacenterConsumptionModel:
             self.datacenter_type = None
 
         # Load COP regressions
-        base_folder = "C:\\Users\\hsolano3\\GitHub\\t3-dashboard\\data"
+        base_folder = "./data"
         file_list = ["Datacenter_20_Eq.csv", "Datacenter_30_Eq.csv", "Datacenter_45_Eq.csv"]
         get_curve_interpolator = True
 

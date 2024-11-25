@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
+import plotly.express as px
 import plotly.graph_objs as go
 from datacenter import DatacenterConsumptionModel, DATACENTER_COOLING_TECH, DATACENTER_TYPE
 
@@ -52,26 +52,40 @@ st.divider()
 
 col1, col2 = st.columns(2)
 
-datacenter_offset = col1.slider("Datacenter Base Power MW", 0.0, 350.0, 150.0)
-datacenter_working_temperature = col2.slider("Datacenter Working Temp (F)", 69, 110, 77)
-cooling_penalty = col1.slider("Cooling Penalty %", 0.0, 100.0, 15.0)
+datacenter_offset = col1.slider("Individual Datacenter Base Power MW", 0.0, 350.0, 50.0)
+datacenter_number = col1.slider("Number of Upcoming Simulated Datacenters", 0, 83, 15)
+datacenter_working_temperature = col2.slider("Datacenter Working Temp (F)", 69, 95, 77)
+technology = col2.radio("Datacenter Cooling Technology", [DATACENTER_COOLING_TECH.TRADITIONAL_AIR, 
+DATACENTER_COOLING_TECH.ADVANCED_AIR, DATACENTER_COOLING_TECH.LIQUID, DATACENTER_COOLING_TECH.IMMERSION_COOLING],
+captions=["Traditional Air", "Advanced Air", "Liquid Cooling", "Immersion Cooling"])
 
 # Example with units in MW
 power_consumption = datacenter_offset
 datacenter_name = 'Siemens'
 working_temp = (datacenter_working_temperature - 32) * (5/9)
-cooling_tech = DATACENTER_COOLING_TECH.TRADITIONAL_AIR
+cooling_tech = technology
 datacenter_type = DATACENTER_TYPE.AI
 
-siemens_datacenter = DatacenterConsumptionModel(datacenter_name, power_consumption, working_temp, cooling_tech, datacenter_type, 'Atlanta', 1)
-
-# data_industrial['Datacenter Contribution (MW)'] = data_industrial.apply(
-#     lambda x: compute_contribution(x['DBT'], tip_point_F, x['Consumed Industrial'], datacenter_offset, cooling_penalty), axis=1
-# )
+siemens_datacenter = DatacenterConsumptionModel(datacenter_name, power_consumption * datacenter_number, working_temp, cooling_tech, datacenter_type, 'Atlanta', 1)
 
 data_industrial['Datacenter Contribution (MW)'] = data_industrial.apply(
     lambda x: compute_datacenter_contribution(siemens_datacenter, x['DBT'], x['Rhum'], x['Consumed Industrial']), axis=1
 )
+
+# Computing sample for pie chart:
+# Scenario
+temperature = 35 #C
+humidity = 68 #Percent
+total_power, cooling_power = siemens_datacenter.estimate_power_consumption(temperature, humidity)
+
+d = {'Power Type': ['Non-Cooling Power (MW)', 'Cooling Power (MW)'], 'Power MW': [total_power-cooling_power, cooling_power]}
+df = pd.DataFrame(data=d)
+
+fig = px.pie(df, values='Power MW', names='Power Type',
+                 title=f'Datacenter Composition',
+                 height=300, width=200)
+fig.update_layout(margin=dict(l=20, r=20, t=30, b=0),)
+col1.plotly_chart(fig, use_container_width=True)
 
 start_date = pd.Timestamp('2022-01-01') # Making hours into datetime since we know the beginning date
 data_industrial['DateTime'] = pd.date_range(start=start_date, periods=len(data_industrial), freq='h')

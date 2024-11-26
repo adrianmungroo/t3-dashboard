@@ -1,4 +1,4 @@
-import math
+import pandas as pd
 import os
 import numpy as np
 from enum import Enum
@@ -36,8 +36,8 @@ class DatacenterConsumptionModel:
         self.working_temperature = working_temperature
 
         # Fixed but Modifiable:
-        self.yearly_mean_temperature = 16.111 # Modulating the PUE contribution on cooling is a yearly system.
-        self.yearly_mean_humidity = 68
+        self.yearly_mean_temperature = 21.777524 # Modulating the PUE contribution on cooling is a yearly system.
+        self.yearly_mean_humidity = 66.44765
         # Enumerators for datacenter type and cooling technology
         if isinstance(cooling_technology, DATACENTER_COOLING_TECH):
             self.cooling_technology = cooling_technology
@@ -88,9 +88,16 @@ class DatacenterConsumptionModel:
 
         COP_multiplier = self.estimate_COP(yearly_wetbulb_temperature) / self.estimate_COP(wetbulb_temperature) # How much "worse" a warmer weather is compared to a cooler weather
 
-        IT_equipment_power = (self.datacenter_size * self.num_datacenters) / self.pue # Share of the power that is IT only
+        # print('COP_scenario: '+str(self.estimate_COP(wetbulb_temperature)))
+        # print('COP_average: ' + str(self.estimate_COP(yearly_wetbulb_temperature)))
+        # print('COP_ratio: '+str(COP_multiplier))
+        # IT_equipment_power = (self.datacenter_size * self.num_datacenters) / self.pue # Share of the power that is IT only
+        #
+        # non_IT_power = (self.datacenter_size * self.num_datacenters) - IT_equipment_power
 
-        non_IT_power = (self.datacenter_size * self.num_datacenters) - IT_equipment_power
+        IT_equipment_power = (self.datacenter_size * self.num_datacenters)  # Share of the power that is IT only by design
+
+        non_IT_power = IT_equipment_power * (self.pue - 1)
 
         non_IT_cooling_power = 0.74 * non_IT_power # Other uses for non_IT_power, such as lighting and electricity transformed should not be counted
 
@@ -98,7 +105,7 @@ class DatacenterConsumptionModel:
 
         fixed_power = IT_equipment_power + non_IT_misc_power  # Power in the datacenter that will not fluctuate due to weather
 
-        weather_induced_cooling_power = max(0,   non_IT_cooling_power * COP_multiplier )
+        weather_induced_cooling_power = non_IT_cooling_power * (COP_multiplier)
 
         total_power = fixed_power + weather_induced_cooling_power
 
@@ -106,14 +113,15 @@ class DatacenterConsumptionModel:
 
         return total_power, cooling_power
 
-    def estimate_heat_generation(self):
+    def estimate_heat_generation(self, efficiency=0.6):
         """
         Estimate the heat generation of the datacenters
         to enable potential use of excess heat for other purposes.
         """
-        heat_conduction_efficiency = 0.6 # Lower bound taken, could be up to 95%
+        heat_conduction_efficiency = efficiency # Lower bound taken, could be up to 95%
 
-        IT_equipment_power = (self.datacenter_size * self.num_datacenters) / self.pue # Share of the power that is IT only
+        # IT_equipment_power = (self.datacenter_size * self.num_datacenters) / self.pue # Share of the power that is IT only
+        IT_equipment_power = (self.datacenter_size * self.num_datacenters)  # Share of the power that is IT only by design
         
         return IT_equipment_power * heat_conduction_efficiency
     
@@ -160,13 +168,15 @@ if __name__ == "__main__":
     # Example with units in MW
     power_consumption = 100
     datacenter_name = 'Siemens'
-    working_temp = 25
-    cooling_tech = DATACENTER_COOLING_TECH.ADVANCED_AIR
+    working_temp = 35
+    cooling_tech = DATACENTER_COOLING_TECH.LIQUID
     datacenter_type = DATACENTER_TYPE.AI
 
     # Scenario
     temperature = 35 #C
     humidity = 68 #Percent
+
+    data_industrial = pd.read_csv(r'data/Consumed_industrial_kW.csv')
 
     siemens_datacenter = DatacenterConsumptionModel(datacenter_name, power_consumption, working_temp, cooling_tech, datacenter_type, 'Atlanta', 1)
 
@@ -174,11 +184,18 @@ if __name__ == "__main__":
 
     total_power, cooling_power = siemens_datacenter.estimate_power_consumption(temperature, humidity)
 
+    data_industrial['Datacenter Consumption (MW)'] = data_industrial.apply(
+    lambda x: siemens_datacenter.estimate_power_consumption((x['DBT']-32)*(5/9), x['Rhum']), axis=1)
+
+    data_industrial['Datacenter Consumption PUE'] = data_industrial.apply(
+        lambda x: x['Datacenter Consumption (MW)'][0]/100, axis=1)
+
     print('With temperature '+str(temperature)+' and humidity '+str(humidity)+' '+siemens_datacenter.name+' consumes '+str(total_power)+' MW'+' from which '+str(cooling_power)+ ' MW is for cooling')
 
     heat_generation = siemens_datacenter.estimate_heat_generation()
 
     print('The datacenter '+siemens_datacenter.name +' could redirect '+str(heat_generation)+' MW of heat')
 
+    print('The Datacenter'+siemens_datacenter.name +' has a mean yearly PUE of '+str(data_industrial.loc[:,'Datacenter Consumption PUE'].mean()))
     siemens_datacenter.estimate_COP(25)
     

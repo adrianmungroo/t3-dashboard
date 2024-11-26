@@ -4,18 +4,29 @@ import plotly.express as px
 import plotly.graph_objs as go
 from datacenter import DatacenterConsumptionModel, DATACENTER_COOLING_TECH, DATACENTER_TYPE
 
-def compute_contribution(dbt, tip_point, industrial_consumption, datacenter_offset, cooling_penalty):
-    if dbt > tip_point:
-        return industrial_consumption + datacenter_offset + (dbt - tip_point) * cooling_penalty
-    else:
-        return industrial_consumption + datacenter_offset
-
 def compute_datacenter_contribution(datacenter: DatacenterConsumptionModel, dbt: float, hum: float,
                                     industrial_consumption: float):
     dbt = (dbt - 32) * (5/9)
     total_power, _ = datacenter.estimate_power_consumption(dbt, hum)
 
     return industrial_consumption + total_power
+
+def compute_datacenter_total_power(datacenter: DatacenterConsumptionModel, dbt: float, hum: float):
+    dbt = (dbt - 32) * (5/9)
+    total_power, _ = datacenter.estimate_power_consumption(dbt, hum)
+
+    return total_power
+
+def compute_datacenter_cooling_power(datacenter: DatacenterConsumptionModel, dbt: float, hum: float):
+    dbt = (dbt - 32) * (5/9)
+    _, cooling_power = datacenter.estimate_power_consumption(dbt, hum)
+
+    return cooling_power
+
+def compute_datacenter_usable_heatload(datacenter: DatacenterConsumptionModel, efficiency: float):
+    heating_power = datacenter.estimate_heat_generation(efficiency=efficiency)
+
+    return heating_power
 
 APP_TITLE = "Data Center Simulator"
 APP_SUBTITLE = "Dr. Jung-Ho Lewe, Dr. David Solano, Dr. Scott Duncan, Adrian Mungroo, Hyun Woo Kim, Meiwen Bi, Imran Aziz and Yunmei Guan"
@@ -52,12 +63,13 @@ st.divider()
 
 col1, col2 = st.columns(2)
 
-datacenter_offset = col1.slider("Individual Datacenter Base Power MW", 0.0, 350.0, 50.0)
+datacenter_offset = col1.slider("Individual Datacenter IT (computing) Power MW", 0.0, 350.0, 50.0)
 datacenter_number = col1.slider("Number of Upcoming Simulated Datacenters", 0, 83, 15)
 datacenter_working_temperature = col2.slider("Datacenter Working Temp (F)", 69, 95, 77)
 technology = col2.radio("Datacenter Cooling Technology", [DATACENTER_COOLING_TECH.TRADITIONAL_AIR, 
 DATACENTER_COOLING_TECH.ADVANCED_AIR, DATACENTER_COOLING_TECH.LIQUID, DATACENTER_COOLING_TECH.IMMERSION_COOLING],
 captions=["Traditional Air", "Advanced Air", "Liquid Cooling", "Immersion Cooling"])
+datacenter_heat_eff = col2.slider("Datacenter Heat Recovery Efficiency", 0.2, 0.95, 0.6)
 
 # Example with units in MW
 power_consumption = datacenter_offset
@@ -72,6 +84,18 @@ data_industrial['Datacenter Contribution (MW)'] = data_industrial.apply(
     lambda x: compute_datacenter_contribution(siemens_datacenter, x['DBT'], x['Rhum'], x['Consumed Industrial']), axis=1
 )
 
+data_industrial['Datacenter Total (MW)'] = data_industrial.apply(
+    lambda x: compute_datacenter_total_power(siemens_datacenter, x['DBT'], x['Rhum']), axis=1
+)
+
+data_industrial['Datacenter Cooling (MW)'] = data_industrial.apply(
+    lambda x: compute_datacenter_cooling_power(siemens_datacenter, x['DBT'], x['Rhum']), axis=1
+)
+
+data_industrial['Datacenter Usable Heatload (MW)'] = data_industrial.apply(
+    lambda x: compute_datacenter_usable_heatload(siemens_datacenter, datacenter_heat_eff), axis=1
+)
+
 # Computing sample for pie chart:
 # Scenario
 temperature = 35 #C
@@ -82,7 +106,7 @@ d = {'Power Type': ['Non-Cooling Power (MW)', 'Cooling Power (MW)'], 'Power MW':
 df = pd.DataFrame(data=d)
 
 fig = px.pie(df, values='Power MW', names='Power Type',
-                 title=f'Datacenter Composition',
+                 title=f'Datacenter Composition during Summer',
                  height=300, width=200)
 fig.update_layout(margin=dict(l=20, r=20, t=30, b=0),)
 col1.plotly_chart(fig, use_container_width=True)
@@ -102,8 +126,25 @@ fig.update_layout(
     legend=dict(x=0, y=1),
     template='plotly_white'  
 )
-
 st.plotly_chart(fig)
+st.divider()
+
+# Create a Plotly figure
+fig2 = go.Figure()
+
+fig2.add_trace(go.Scatter(x=data_industrial['DateTime'], y=data_industrial['Datacenter Total (MW)'], mode='lines', name='Total Datacenter Consumption', line=dict(color='blue')))
+fig2.add_trace(go.Scatter(x=data_industrial['DateTime'], y=data_industrial['Datacenter Cooling (MW)'], mode='lines', name='Datacenter Cooling Power Required', line=dict(color='green')))
+fig2.add_trace(go.Scatter(x=data_industrial['DateTime'], y=data_industrial['Datacenter Usable Heatload (MW)']/datacenter_heat_eff, mode='lines', name='Datacenter IT power', line=dict(color='black')))
+fig2.add_trace(go.Scatter(x=data_industrial['DateTime'], y=data_industrial['Datacenter Usable Heatload (MW)'], mode='lines', name='Datacenter useable heatload', line=dict(color='red')))
+
+fig2.update_layout(
+    xaxis_title='Time of Year',
+    yaxis_title='Power (MW)',
+    legend=dict(x=1, y=1),
+    template='plotly_white'
+)
+
+st.plotly_chart(fig2)
 
 st.divider()
 

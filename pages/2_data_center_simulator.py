@@ -92,9 +92,9 @@ data_industrial['Datacenter Cooling (MW)'] = data_industrial.apply(
     lambda x: compute_datacenter_cooling_power(siemens_datacenter, x['DBT'], x['Rhum']), axis=1
 )
 
-data_industrial['Datacenter Usable Heatload (MW)'] = data_industrial.apply(
-    lambda x: compute_datacenter_usable_heatload(siemens_datacenter, datacenter_heat_eff), axis=1
-)
+# data_industrial['Datacenter Usable Heatload (MW)'] = data_industrial.apply(
+#     lambda x: compute_datacenter_usable_heatload(siemens_datacenter, datacenter_heat_eff), axis=1
+# )
 
 # Computing sample for pie chart:
 # Scenario
@@ -135,7 +135,7 @@ fig2 = go.Figure()
 fig2.add_trace(go.Scatter(x=data_industrial['DateTime'], y=data_industrial['Datacenter Total (MW)'], mode='lines', name='Total Datacenter Consumption', line=dict(color='blue')))
 fig2.add_trace(go.Scatter(x=data_industrial['DateTime'], y=data_industrial['Datacenter Cooling (MW)'], mode='lines', name='Datacenter Cooling Power Required', line=dict(color='green')))
 fig2.add_trace(go.Scatter(x=data_industrial['DateTime'], y=data_industrial['Datacenter Usable Heatload (MW)']/datacenter_heat_eff, mode='lines', name='Datacenter IT power', line=dict(color='black')))
-fig2.add_trace(go.Scatter(x=data_industrial['DateTime'], y=data_industrial['Datacenter Usable Heatload (MW)'], mode='lines', name='Datacenter useable heatload', line=dict(color='red')))
+# fig2.add_trace(go.Scatter(x=data_industrial['DateTime'], y=data_industrial['Datacenter Usable Heatload (MW)'], mode='lines', name='Datacenter useable heatload', line=dict(color='red')))
 
 fig2.update_layout(
     xaxis_title='Time of Year',

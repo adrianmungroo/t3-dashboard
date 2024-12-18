@@ -44,12 +44,10 @@ st.markdown("""
 """)
 
 st.divider()
-
-triangle = st.container()
-    
-# Top of triangle - make it centered
-_, center, _ = triangle.columns([1, 2, 1])
-with center:
+st.write("##### Our tool will allow users to select a pre-ran scenario to observe how it affects the energy spread!")
+scenario_choice = st.radio("Please select a scenario", ['Utility Investment in Renewables','DER investment at Grid Edge'])
+left, right = st.columns(2)
+with left:
     st.markdown("<div style='text-align: center;'><h3>Baseline Energy Mix</h3></div>", unsafe_allow_html=True)
     st.markdown(
         """
@@ -62,29 +60,27 @@ with center:
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-# Bottom of triangle
-left, right = triangle.columns(2)
-with left:
-    st.markdown("<div style='text-align: center;'><h3>Utility Investment in Renewables</h3></div>", unsafe_allow_html=True)
-    st.markdown(
-        """
-        <div style="text-align: center;">
-            <img src="https://i.imgur.com/1wlZaIK.png" width="500">
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-
 with right:
-    st.markdown("<div style='text-align: center;'><h3>DER investment at Grid Edge</h3></div>", unsafe_allow_html=True)
-    st.markdown(
-        """
-        <div style="text-align: center;">
-            <img src="https://i.imgur.com/cxuTk9f.png" width="500">
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+    if scenario_choice == "Utility Investment in Renewables":
+        st.markdown("<div style='text-align: center;'><h3>Utility Investment in Renewables</h3></div>", unsafe_allow_html=True)
+        st.markdown(
+            """
+            <div style="text-align: center;">
+                <img src="https://i.imgur.com/1wlZaIK.png" width="530">
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+    else:
+        st.markdown("<div style='text-align: center;'><h3>DER investment at Grid Edge</h3></div>", unsafe_allow_html=True)
+        st.markdown(
+            """
+            <div style="text-align: center;">
+                <img src="https://i.imgur.com/cxuTk9f.png" width="530">
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
 st.divider()
 st.markdown("""

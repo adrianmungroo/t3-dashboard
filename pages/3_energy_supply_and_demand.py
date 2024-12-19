@@ -45,7 +45,9 @@ st.markdown("""
 
 st.divider()
 st.write("##### Our tool will allow users to select a pre-ran scenario to observe how it affects the energy spread!")
-scenario_choice = st.radio("Please select a scenario", ['Utility Investment in Renewables','DER investment at Grid Edge'])
+_,center,_ = st.columns([4,5,1])
+with center:
+    scenario_choice = st.radio("Please select a scenario", ['Utility Investment in Renewables','DER investment at Grid Edge'])
 left, right = st.columns(2)
 with left:
     st.markdown("<div style='text-align: center;'><h3>Baseline Energy Mix</h3></div>", unsafe_allow_html=True)
@@ -76,7 +78,7 @@ with right:
         st.markdown(
             """
             <div style="text-align: center;">
-                <img src="https://i.imgur.com/cxuTk9f.png" width="530">
+                <img src="https://i.imgur.com/cxuTk9f.png" width="550">
             </div>
             """,
             unsafe_allow_html=True

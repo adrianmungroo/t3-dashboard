@@ -23,7 +23,7 @@ st.markdown("""
 ##### Hourly solar irradiation data and Fulton Parcel Land Use data as well as Microsoft Buildings Footprint data to develop estimated Solar kWh
 """)
 
-landuse = st.selectbox('**Select a Land Use below**', ['Apartments (Class X)', 'Churches', 'Warehouses'])
+landuse = st.selectbox('**Select a Land Use from the dropdown below**', ['Apartments (Class X)', 'Churches', 'Warehouses'])
 
 c1,c2 = st.columns(2)
 

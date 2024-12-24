@@ -129,7 +129,7 @@ if 'historical_filter_2' not in st.session_state:
 # Begin app
 
 st.write("""
-# Welcome to Amanda's Energyshed Dashboard!
+# Welcome to the Energyshed Dashboard!
 
 ##### This interactive tool is designed to help you explore and visualize important data and forecasts related to energy and environmental metrics.          
          

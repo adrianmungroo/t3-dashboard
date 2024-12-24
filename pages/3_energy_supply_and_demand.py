@@ -19,20 +19,20 @@ st.markdown("""
 
 c1,c2,c3 = st.columns(3)
 c1.markdown(""" 
-###### Baseline Energy Mix (Center):
+###### Baseline Energy Mix:
 - Shows how Atlanta currently gets and uses its electricity
 - Represents our current mix of power sources (solar, natural gas, nuclear, etc.)
 - Serves as a reference point for comparing changes
 """)
 
 c2.markdown("""
-###### Utility-Led Changes (Left):
+###### Utility-Led Changes:
 - Shows what happens if power companies lead the green energy transition
 - Focuses on large-scale renewable projects
 """)
 
 c3.markdown("""
-###### Community-Driven Changes (Right):
+###### Community-Driven Changes:
 - Shows what happens when customers adopt new behind-the-meter (BTM) technologies
 - Includes impacts of renewables, energy storage, and smart devices
 - Reflects a more distributed energy future

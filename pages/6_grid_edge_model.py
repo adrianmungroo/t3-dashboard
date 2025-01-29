@@ -19,7 +19,7 @@ st.markdown(f"<div style='text-align: center;'><h5> Total Electrical Energy Usag
 st.markdown(
     f"""
     <div style="text-align: center;">
-        <img src=https://i.imgur.com/zUrv2rx.gif width="500">
+        <img src=https://i.imgur.com/fjdcXou.gif width="500">
     </div>
     """,
     unsafe_allow_html=True

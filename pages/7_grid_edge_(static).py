@@ -14,12 +14,10 @@ st.markdown('##### The gifs from the [dynamic panel](http://localhost:8501/grid_
 
 st.divider()
 
-st.write("### Baseline")
-
-c1,c2,c3 = st.columns(3)
+c1,c2,c3,c4 = st.columns([1,1,1,0.2])
 
 with c1:
-    st.markdown(f"<div style='text-align: center;'><h5> Total Electrical Energy Usage</h5></div>", unsafe_allow_html=True)
+    st.markdown(f"<div style='text-align: center;'><h5>Electrical Energy Usage</h5></div>", unsafe_allow_html=True)
 
     st.markdown(
         f"""
@@ -31,7 +29,7 @@ with c1:
     )
 
 with c2:
-    st.markdown(f"<div style='text-align: center;'><h5> Total Emissions </h5></div>", unsafe_allow_html=True)
+    st.markdown(f"<div style='text-align: center;'><h5>Emissions</h5></div>", unsafe_allow_html=True)
 
     st.markdown(
         f"""
@@ -43,7 +41,7 @@ with c2:
     )
 
 with c3:
-    st.markdown(f"<div style='text-align: center;'><h5> Total Natural Gas Used </h5></div>", unsafe_allow_html=True)
+    st.markdown(f"<div style='text-align: center;'><h5>Natural Gas Used (heating)</h5></div>", unsafe_allow_html=True)
 
     st.markdown(
         f"""
@@ -54,13 +52,19 @@ with c3:
         unsafe_allow_html=True
     )
 
-st.write("### With Heat Pump")
+with c4:
+    st.markdown(
+        """
+        <div style="writing-mode: vertical-rl; transform: rotate(180deg); height: 30%; margin-top: 50px;">
+            <h3>Baseline</h3>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
-c1,c2,c3 = st.columns(3)
+c1,c2,c3,c4 = st.columns([1,1,1,0.2])
 
 with c1:
-    st.markdown(f"<div style='text-align: center;'><h5> Total Electrical Energy Usage</h5></div>", unsafe_allow_html=True)
-
     st.markdown(
         f"""
         <div style="text-align: center;">
@@ -71,8 +75,6 @@ with c1:
     )
 
 with c2:
-    st.markdown(f"<div style='text-align: center;'><h5> Total Emissions </h5></div>", unsafe_allow_html=True)
-
     st.markdown(
         f"""
         <div style="text-align: center;">
@@ -83,12 +85,20 @@ with c2:
     )
 
 with c3:
-    st.markdown(f"<div style='text-align: center;'><h5> Total Natural Gas Used </h5></div>", unsafe_allow_html=True)
-
     st.markdown(
         f"""
         <div style="text-align: center;">
             <img src=https://i.imgur.com/B7mTIzT.png width="500">
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+with c4:
+    st.markdown(
+        """
+        <div style="writing-mode: vertical-rl; transform: rotate(180deg); height: 30%; margin-top: 50px;">
+            <h3>Heat Pump</h3>
         </div>
         """,
         unsafe_allow_html=True

@@ -10,7 +10,7 @@ st.set_page_config(
 )
 
 st.header('Grid Edge Model Expansion')
-st.markdown('##### As seen in the gif below, we have expanded the reach of our grid energy usage models into Forsyth and DeKalb, with Gwinnett just around the corner!')
+st.markdown('##### As seen in the gifs below, we have expanded the reach of our grid energy usage models into Forsyth and DeKalb, with Gwinnett just around the corner!')
 
 st.divider()
 

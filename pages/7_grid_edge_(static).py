@@ -10,7 +10,7 @@ st.set_page_config(
 )
 
 st.header('Grid Edge Model Expansion')
-st.markdown('##### As seen in the gifs below, we have expanded the reach of our grid energy usage models into Forsyth and DeKalb, with Gwinnett just around the corner!')
+st.markdown('##### The gifs from the [dynamic panel](http://localhost:8501/grid_edge_(dynamic)) are frozen to show the peak hours, emphasizing the differences between the two scenarios.')
 
 st.divider()
 

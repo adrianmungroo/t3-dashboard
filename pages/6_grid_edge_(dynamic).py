@@ -12,6 +12,13 @@ st.set_page_config(
 st.header('Grid Edge Model Expansion')
 st.markdown('##### As seen in the gifs below, we have expanded the reach of our grid energy usage models into Forsyth and DeKalb, with Gwinnett just around the corner!')
 
+st.markdown("""
+            Two scenarios are presented below: \n
+            1) 0% Heat Pump utilization
+            2) 100% Heat Pump Adoption \n
+            ###### We observe the effects that while heat pumps lead to an increase of electricity usage, they ultimately lead to lower total emissions and a reduced reliance on local natural gas. 
+""")
+
 st.divider()
 
 st.write("### Baseline")

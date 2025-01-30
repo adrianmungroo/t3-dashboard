@@ -14,13 +14,44 @@ st.markdown('##### As seen in the gif below, we have expanded the reach of our g
 
 st.divider()
 
-st.markdown(f"<div style='text-align: center;'><h5> Total Electrical Energy Usage (Fulton, Forsyth, DeKalb) </h5></div>", unsafe_allow_html=True)
+st.write("### Baseline")
 
-st.markdown(
-    f"""
-    <div style="text-align: center;">
-        <img src=https://i.imgur.com/fjdcXou.gif width="500">
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+c1,c2,c3 = st.columns(3)
+
+with c1:
+    st.markdown(f"<div style='text-align: center;'><h5> Total Electrical Energy Usage</h5></div>", unsafe_allow_html=True)
+
+    st.markdown(
+        f"""
+        <div style="text-align: center;">
+            <img src=https://i.imgur.com/zdARq8C.gif width="500">
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+with c2:
+    st.markdown(f"<div style='text-align: center;'><h5> Total Emissions </h5></div>", unsafe_allow_html=True)
+
+    st.markdown(
+        f"""
+        <div style="text-align: center;">
+            <img src=https://i.imgur.com/521vNbY.gif width="500">
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+with c3:
+    st.markdown(f"<div style='text-align: center;'><h5> Total Natural Gas Used </h5></div>", unsafe_allow_html=True)
+
+    st.markdown(
+        f"""
+        <div style="text-align: center;">
+            <img src=https://i.imgur.com/buDfsQw.gif width="500">
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+st.write("### With Heat Pump")

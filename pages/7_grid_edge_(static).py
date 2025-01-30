@@ -10,7 +10,7 @@ st.set_page_config(
 )
 
 st.header('Grid Edge Model Expansion')
-st.markdown('##### The gifs from the [dynamic panel](http://localhost:8501/grid_edge_(dynamic)) are frozen to show the peak hours, emphasizing the differences between the two scenarios.')
+st.markdown('##### The gifs from the [dynamic panel](https://energyshed-dashboard.streamlit.app/grid_edge_(dynamic)) are frozen to show the peak hours, emphasizing the differences between the two scenarios.')
 
 st.divider()
 

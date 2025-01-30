@@ -11,8 +11,8 @@ st.set_page_config(
     layout='wide'
 )
 
-total_baseline_energy = pd.read_csv(r'data\total_baseline_energy.csv')
-total_heatpump_energy = pd.read_csv(r'data\total_heatpump_energy.csv')
+total_baseline_energy = pd.read_csv(r'data/total_baseline_energy.csv')
+total_heatpump_energy = pd.read_csv(r'data/total_heatpump_energy.csv')
 
 fig = go.Figure()
 

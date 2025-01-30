@@ -63,7 +63,7 @@ st.divider()
 
 col1, col2 = st.columns(2)
 
-datacenter_offset = col1.slider("Individual Datacenter IT (computing) Power MW", 0.0, 350.0, 50.0)
+datacenter_offset = col1.slider("Individual Datacenter IT (computing) Power MW", 0.0, 50.0, 10.0)
 datacenter_number = col1.slider("Number of Upcoming Simulated Datacenters", 0, 83, 15)
 datacenter_working_temperature = col2.slider("Datacenter Working Temp (F)", 69, 95, 77)
 technology = col2.radio("Datacenter Cooling Technology", [DATACENTER_COOLING_TECH.TRADITIONAL_AIR, 

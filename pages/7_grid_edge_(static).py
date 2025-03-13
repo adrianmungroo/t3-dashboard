@@ -22,7 +22,7 @@ with c1:
     st.markdown(
         f"""
         <div style="text-align: center;">
-            <img src=https://i.imgur.com/ZggzLwX.png width="500">
+            <img src=https://i.imgur.com/ukI2zHa.png width="500">
         </div>
         """,
         unsafe_allow_html=True
@@ -34,7 +34,7 @@ with c2:
     st.markdown(
         f"""
         <div style="text-align: center;">
-            <img src=https://i.imgur.com/BCJe8MO.png width="500">
+            <img src=https://i.imgur.com/8jlemVV.png width="500">
         </div>
         """,
         unsafe_allow_html=True
@@ -46,7 +46,7 @@ with c3:
     st.markdown(
         f"""
         <div style="text-align: center;">
-            <img src=https://i.imgur.com/kCYP1JL.png width="500">
+            <img src=https://i.imgur.com/aQoS7yz.png width="500">
         </div>
         """,
         unsafe_allow_html=True
@@ -68,7 +68,7 @@ with c1:
     st.markdown(
         f"""
         <div style="text-align: center;">
-            <img src=https://i.imgur.com/5CTvYmW.png width="500">
+            <img src=https://i.imgur.com/ziy4vmt.png width="500">
         </div>
         """,
         unsafe_allow_html=True
@@ -78,7 +78,7 @@ with c2:
     st.markdown(
         f"""
         <div style="text-align: center;">
-            <img src=https://i.imgur.com/ojLbjjz.png width="500">
+            <img src=https://i.imgur.com/1zJjurF.png width="500">
         </div>
         """,
         unsafe_allow_html=True
@@ -88,7 +88,7 @@ with c3:
     st.markdown(
         f"""
         <div style="text-align: center;">
-            <img src=https://i.imgur.com/B7mTIzT.png width="500">
+            <img src=https://i.imgur.com/v2EF5YS.png width="500">
         </div>
         """,
         unsafe_allow_html=True

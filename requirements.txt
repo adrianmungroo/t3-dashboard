@@ -7,3 +7,5 @@ geopy
 matplotlib
 plotly
 scipy
+numpy
+branca

@@ -5,9 +5,11 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import folium
+from folium import plugins
 from streamlit_folium import st_folium
 import matplotlib.colors as mcolors
 import plotly.express as px
+from branca.colormap import LinearColormap
 
 # Defining page
 
@@ -36,12 +38,41 @@ column_dictionary = {'GIS' : {'counties': ['Energy Burden 2016', 'Energy Burden 
  'tracts': ['DAC Boolean','Energy Burden 2022 Tract']},
  'Historical' : ['State Level Jobs', 'GA_AnnualEmissions', 'AQI Scores Fulton']}
 
+# Data category to color mapping
+data_colors = {
+    'Energy Burden': 'Reds',
+    'Solar': 'YlOrBr',
+    'Coal': 'Greys',
+    'Natural Gas': 'Blues',
+    'Median AQI': 'RdYlGn_r',  # Reversed so red=bad air quality
+    'DAC Boolean': 'Set1'
+}
+
+# Session state for synced colorbars
+if 'sync_colorbars' not in st.session_state:
+    st.session_state.sync_colorbars = False
+
+if 'global_min_max' not in st.session_state:
+    st.session_state.global_min_max = {}
+
 # Helper Functions
 
+def get_appropriate_colormap(column_name):
+    for key in data_colors.keys():
+        if key in column_name:
+            return data_colors[key]
+    return 'Reds'  # Default
+
+def get_data_category(column_name):
+    for key in data_colors.keys():
+        if key in column_name:
+            return key
+    return None
+
 def get_color(value, min_value, max_value, color_scale):
-    if value is None:
-        return '#000000'
-    normalized = (value - min_value) / (max_value - min_value)
+    if value is None or pd.isna(value):
+        return '#CCCCCC'  # Gray for missing data
+    normalized = (value - min_value) / (max_value - min_value) if max_value > min_value else 0.5
     cmap = plt.get_cmap(color_scale)
     color = mcolors.to_hex(cmap(normalized))
     return color
@@ -49,39 +80,162 @@ def get_color(value, min_value, max_value, color_scale):
 def plotGISGraph(chosen, subgroup, key_suffix):
     data = gpd.read_file(f'data/GIS/{subgroup}.geojson')
     data_json = data.to_json()
-    column_choice = chosen  # Just a reassignment
-
-    m = folium.Map(prefer_canvas=True, zoom_control=False, 
-                   tiles='http://tile.openstreetmap.org/{z}/{x}/{y}.png', 
-                   attr='basemap-choice',
-                   location=[32.9, -82.91], zoom_start=7)
+    column_choice = chosen
+    
+    # Store data info for potential sync
+    data_category = get_data_category(column_choice)
+    if data_category:
+        if data_category not in st.session_state.global_min_max:
+            st.session_state.global_min_max[data_category] = {'min': float('inf'), 'max': float('-inf')}
+        
+        current_min = data[column_choice].min()
+        current_max = data[column_choice].max()
+        
+        # Update global min/max for this data category
+        st.session_state.global_min_max[data_category]['min'] = min(st.session_state.global_min_max[data_category]['min'], current_min)
+        st.session_state.global_min_max[data_category]['max'] = max(st.session_state.global_min_max[data_category]['max'], current_max)
+    
+    # Create tile layers
+    tiles = {
+        'OpenStreetMap': folium.TileLayer(
+            tiles='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            attr='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            name='OpenStreetMap'
+        ),
+        'ESRI Satellite': folium.TileLayer(
+            tiles='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+            attr='Esri',
+            name='ESRI Satellite'
+        ),
+        'CartoDB Positron': folium.TileLayer(
+            tiles='https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+            attr='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            name='CartoDB Positron'
+        ),
+    }
+    
+    # Create map
+    m = folium.Map(
+        location=[32.9, -82], 
+        zoom_start=7,
+        tiles=None
+    )
+    
+    # Add all tile layers to the map
+    for tile in tiles.values():
+        tile.add_to(m)
     
     if column_choice:
-        min_value = data[column_choice].min()
-        max_value = data[column_choice].max()  
-
-        def style_function(feature):
-            value = feature['properties'][column_choice]
-            color = get_color(value, min_value, max_value, 'Reds')
-            return {
-                'fillColor': color,
-                'color': 'black',
-                'weight': 1,
-                'fillOpacity': 1
-            }  
+        # Handle boolean columns differently
+        if column_choice == 'DAC Boolean':
+            colormap = get_appropriate_colormap(column_choice)
+            
+            def style_function(feature):
+                value = feature['properties'][column_choice]
+                color = '#FF0000' if value else '#00FF00'  # Red for True, Green for False
+                return {
+                    'fillColor': color,
+                    'color': 'black',
+                    'weight': 1,
+                    'fillOpacity': 0.7
+                }
+            
+            legend_colors = {'Yes': '#FF0000', 'No': '#00FF00'}
+            
+        else:
+            # For numeric columns
+            colormap = get_appropriate_colormap(column_choice)
+            
+            # Determine if we should use synced min/max values
+            if st.session_state.sync_colorbars and data_category and data_category in st.session_state.global_min_max:
+                min_value = st.session_state.global_min_max[data_category]['min']
+                max_value = st.session_state.global_min_max[data_category]['max']
+            else:
+                min_value = data[column_choice].min()
+                max_value = data[column_choice].max()
+            
+            def style_function(feature):
+                value = feature['properties'][column_choice]
+                color = get_color(value, min_value, max_value, colormap)
+                return {
+                    'fillColor': color,
+                    'color': 'black',
+                    'weight': 1,
+                    'fillOpacity': 0.7
+                }
+            
+            # Convert matplotlib colormap to hex colors that branca can use
+            colormap_instance = plt.get_cmap(colormap)
+            color_values = np.linspace(0, 1, 10)
+            hex_colors = [mcolors.to_hex(colormap_instance(i)) for i in color_values]
+            
+            # Create a colormap for the legend
+            colormap_obj = LinearColormap(
+                colors=hex_colors,
+                index=np.linspace(min_value, max_value, 10),
+                vmin=min_value,
+                vmax=max_value,
+                caption=column_choice
+            )
+            
+            # Add the colormap to the map
+            colormap_obj.add_to(m)
+        
+        # Create GeoJson layer with tooltips
+        tooltip_fields = ['name'] if subgroup == 'counties' else ['AFFGEOID']
+        tooltip_aliases = ['County'] if subgroup == 'counties' else ['Tract ID']
+        
+        # Add column choice to tooltip
+        tooltip_fields.append(column_choice)
+        tooltip_aliases.append(column_choice)
         
         folium.GeoJson(
             data_json,
             style_function=style_function,
             tooltip=folium.GeoJsonTooltip(
-                fields=[column_choice],  # 'name' or any other property in your GeoJSON, and column_choice for data values
-                aliases=[column_choice],  # Optional: aliases for the fields
+                fields=tooltip_fields,
+                aliases=tooltip_aliases,
+                sticky=True,
                 localize=True,
-                sticky=True
+                style='''
+                    background-color: #F0EFEF;
+                    border: 2px solid black;
+                    border-radius: 3px;
+                    box-shadow: 3px 3px 3px rgba(0,0,0,0.2);
+                    padding: 10px;
+                    font-size: 14px;
+                '''
             ),
             name=f'{column_choice}'
         ).add_to(m)
+        
+        # Add special legend for boolean data
+        if column_choice == 'DAC Boolean':
+            legend_html = '''
+            <div style="
+                position: fixed; 
+                bottom: 50px; right: 50px; 
+                background-color: white; 
+                padding: 10px; 
+                border: 2px solid grey;
+                border-radius: 5px;
+                z-index: 9999;
+                ">
+                <p><b>{title}</b></p>
+                <p><span style="color:{color1};">■</span> Yes</p>
+                <p><span style="color:{color2};">■</span> No</p>
+            </div>
+            '''.format(title=column_choice, color1='#FF0000', color2='#00FF00')
+            
+            m.get_root().html.add_child(folium.Element(legend_html))
     
+    # Add layer control
+    folium.LayerControl().add_to(m)
+    
+    # Add scale bar
+    folium.plugins.MeasureControl(position='bottomleft').add_to(m)
+    
+    # Display the map
     st_folium(m, width=750, height=500, key=f'map_{key_suffix}')
 
 def plotHistoricalGraph(name, key_suffix):
@@ -143,6 +297,19 @@ st.markdown("""
 
 #####  Please click the dropdown menus to visualize different datasets.            
 """)
+
+# Sync Colorbars button - only show when both panels have maps
+sync_needed = st.session_state.gis_filter_1 and st.session_state.gis_filter_2
+
+if sync_needed:
+    sync_col1, sync_col2, sync_col3 = st.columns([4, 1, 4])
+    with sync_col2:
+        if st.button('🔄 Sync Colorbars', key='sync_colorbars_button'):
+            st.session_state.sync_colorbars = not st.session_state.sync_colorbars
+            st.rerun()
+    
+    sync_status = "ON ✅" if st.session_state.sync_colorbars else "OFF ❌"
+    sync_col2.write(f"Sync: {sync_status}")
 
 column1, column2 = st.columns(2)
 

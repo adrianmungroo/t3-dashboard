@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
+import numpy as np
 
 APP_TITLE = "Supply Stack"
 APP_SUBTITLE = "Dr. Jung-Ho Lewe, Dr. David Solano, Dr. Scott Duncan, Hyun Woo Kim, Adrian Mungroo, Meiwen Bi, Imran Aziz and Yunmei Guan"
@@ -104,3 +105,122 @@ with col2:
     st.markdown(f"<div style='text-align: center;'>Total Generation Cost: {sum(charts_data['cost']['values']):,.2f} USD</div>", unsafe_allow_html=True)
 with col3:
     st.markdown(f"<div style='text-align: center;'>Total CO2 Emissions: {sum(charts_data['co2']['values']):,.2f} metric tons</div>", unsafe_allow_html=True)
+
+# Load and process time series data
+@st.cache_data
+def load_time_series_data():
+    df = pd.read_csv('data/stack model output v0.csv')
+    df['Time'] = pd.to_datetime(df['Time'])
+    return df
+
+# Load the data
+ts_data = load_time_series_data()
+
+# Create time series plots
+st.divider()
+
+# Create the cost time series plot
+cost_fig = go.Figure()
+cost_fig.add_trace(
+    go.Scatter(
+        x=ts_data['Time'], 
+        y=ts_data['Total Cost Model'],
+        mode='lines',
+        name='Total Cost',
+        line=dict(color='#FF5733', width=2)
+    )
+)
+
+cost_fig.update_layout(
+    title="Power Generation Cost Over Time",
+    xaxis_title="Date",
+    yaxis_title="Cost (USD)",
+    height=450,
+    hovermode="x unified",
+    margin=dict(l=50, r=50, t=50, b=50)
+)
+
+# Create the generation and emissions plot with dual y-axes
+gen_emissions_fig = make_subplots(specs=[[{"secondary_y": True}]])
+
+gen_emissions_fig.add_trace(
+    go.Scatter(
+        x=ts_data['Time'], 
+        y=ts_data['Net Generation Model'],
+        mode='lines',
+        name='Power Generation',
+        line=dict(color='#3366FF', width=2)
+    ),
+    secondary_y=False
+)
+
+gen_emissions_fig.add_trace(
+    go.Scatter(
+        x=ts_data['Time'], 
+        y=ts_data['CO2 Emission Model'],
+        mode='lines',
+        name='CO2 Emissions',
+        line=dict(color='#33CC33', width=2)
+    ),
+    secondary_y=True
+)
+
+gen_emissions_fig.update_layout(
+    title="Power Generation and CO2 Emissions Over Time",
+    xaxis_title="Date",
+    hovermode="x unified",
+    height=450,
+    margin=dict(l=50, r=50, t=50, b=50),
+    legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+)
+
+gen_emissions_fig.update_yaxes(title_text="Power Generation (MWh)", secondary_y=False)
+gen_emissions_fig.update_yaxes(title_text="CO2 Emissions (metric tons)", secondary_y=True)
+
+# Display the time series plots
+col1, col2 = st.columns(2)
+
+with col1:
+    st.plotly_chart(cost_fig, use_container_width=True)
+
+with col2:
+    st.plotly_chart(gen_emissions_fig, use_container_width=True)
+
+# Add summary statistics for time series data
+col1, col2, col3 = st.columns(3)
+
+# Define metrics data
+metrics_data = [
+    {
+        "column": col1,
+        "title": "Average Hourly Cost",
+        "value_column": "Total Cost Model",
+        "format": "{:,.1f}",
+        "prefix": "$"
+        
+    },
+    {
+        "column": col2,
+        "title": "Average Hourly Generation",
+        "value_column": "Net Generation Model",
+        "format": "{:,.1f} MWh",
+        "prefix": ""
+    },
+    {
+        "column": col3,
+        "title": "Average Hourly CO2 Emissions",
+        "value_column": "CO2 Emission Model",
+        "format": "{:,.1f} metric tons",
+        "prefix": ""
+    }
+]
+
+# Display metrics in a loop
+for metric in metrics_data:
+    with metric["column"]:
+        column_name = metric["value_column"]
+        st.metric(
+            metric["title"],
+            f"{metric['prefix']}{metric['format'].format(ts_data[column_name].mean())}",
+            delta=f"{(ts_data[column_name].iloc[-1] - ts_data[column_name].iloc[0]) / ts_data[column_name].iloc[0]:.1%}"
+        )

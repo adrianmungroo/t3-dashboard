@@ -92,7 +92,7 @@ fig.update_layout(
 )
 
 # Show in Streamlit
-st.header('Supply Stack')
+st.header('Supply Stack (Balancing authority: SOCO)')
 
 # Display the pie charts
 st.plotly_chart(fig, use_container_width=True)
@@ -125,19 +125,26 @@ cost_fig.add_trace(
     go.Scatter(
         x=ts_data['Time'], 
         y=ts_data['Total Cost Model'],
-        mode='lines',
+        mode='markers',
         name='Total Cost',
         line=dict(color='#FF5733', width=2)
     )
 )
 
 cost_fig.update_layout(
-    title="Power Generation Cost Over Time",
+    title="Cost Over Time",
     xaxis_title="Date",
     yaxis_title="Cost (USD)",
     height=450,
     hovermode="x unified",
-    margin=dict(l=50, r=50, t=50, b=50)
+    margin=dict(l=50, r=50, t=50, b=50),
+    xaxis=dict(
+        dtick="M1",
+        tickformat="%b"
+    ),
+    yaxis=dict(
+        range=[0, max(ts_data['Total Cost Model']) * 1.1]  # Start at 0, end at 110% of max value
+    )
 )
 
 # Create the generation and emissions plot with dual y-axes
@@ -147,9 +154,9 @@ gen_emissions_fig.add_trace(
     go.Scatter(
         x=ts_data['Time'], 
         y=ts_data['Net Generation Model'],
-        mode='lines',
+        mode='markers',
         name='Power Generation',
-        line=dict(color='#3366FF', width=2)
+        line=dict(color='#3366FF', width=3)
     ),
     secondary_y=False
 )
@@ -158,9 +165,9 @@ gen_emissions_fig.add_trace(
     go.Scatter(
         x=ts_data['Time'], 
         y=ts_data['CO2 Emission Model'],
-        mode='lines',
+        mode='markers',
         name='CO2 Emissions',
-        line=dict(color='#33CC33', width=2)
+        line=dict(color='#33CC33', width=3)
     ),
     secondary_y=True
 )
@@ -171,11 +178,27 @@ gen_emissions_fig.update_layout(
     hovermode="x unified",
     height=450,
     margin=dict(l=50, r=50, t=50, b=50),
-    legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+    legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+    xaxis=dict(
+        dtick="M1",
+        tickformat="%b"
+    )
 )
 
-gen_emissions_fig.update_yaxes(title_text="Power Generation (MWh)", secondary_y=False)
-gen_emissions_fig.update_yaxes(title_text="CO2 Emissions (metric tons)", secondary_y=True)
+gen_emissions_fig.update_yaxes(
+    title_text="Power Generation (MWh)", 
+    secondary_y=False,
+    range=[0, max(ts_data['Net Generation Model']) * 1.1],  # Start at 0, end at 110% of max value
+    title_font=dict(color='#3366FF'),  # Match Power Generation blue color
+    tickfont=dict(color='#3366FF')     # Match color for tick labels
+)
+gen_emissions_fig.update_yaxes(
+    title_text="CO2 Emissions (metric tons)", 
+    secondary_y=True,
+    range=[0, max(ts_data['CO2 Emission Model']) * 1.1],  # Start at 0, end at 110% of max value
+    title_font=dict(color='#33CC33'),  # Match CO2 Emissions green color
+    tickfont=dict(color='#33CC33')     # Match color for tick labels
+)
 
 # Display the time series plots
 col1, col2 = st.columns(2)

@@ -37,7 +37,7 @@ st.set_page_config(
     layout='wide'
 )
 
-data_industrial = pd.read_csv(r'data/Consumed_industrial_kW.csv')
+data_industrial = pd.read_csv(r'data/Power_Consumption_KW.csv')
 
 st.markdown(
         """<style>
@@ -63,8 +63,8 @@ st.divider()
 
 col1, col2 = st.columns(2)
 
-datacenter_offset = col1.slider("Individual Datacenter IT (computing) Power MW", 0.0, 50.0, 10.0)
-datacenter_number = col1.slider("Number of Upcoming Simulated Datacenters", 0, 83, 15)
+datacenter_offset = col1.slider("Individual Datacenter IT (computing) Power MW", 0.0, 50.0, 20.0)
+datacenter_number = col1.slider("Number of Upcoming Simulated Datacenters", 0, 83, 40)
 datacenter_working_temperature = col2.slider("Datacenter Working Temp (F)", 69, 95, 77)
 technology = col2.radio("Datacenter Cooling Technology", [DATACENTER_COOLING_TECH.TRADITIONAL_AIR, 
 DATACENTER_COOLING_TECH.ADVANCED_AIR, DATACENTER_COOLING_TECH.LIQUID, DATACENTER_COOLING_TECH.IMMERSION_COOLING],
@@ -81,7 +81,7 @@ datacenter_type = DATACENTER_TYPE.AI
 siemens_datacenter = DatacenterConsumptionModel(datacenter_name, power_consumption * datacenter_number, working_temp, cooling_tech, datacenter_type, 'Atlanta', 1)
 
 data_industrial['Datacenter Contribution (MW)'] = data_industrial.apply(
-    lambda x: compute_datacenter_contribution(siemens_datacenter, x['DBT'], x['Rhum'], x['Consumed Industrial']), axis=1
+    lambda x: compute_datacenter_contribution(siemens_datacenter, x['DBT'], x['Rhum'], x['Total Consumed']), axis=1
 )
 
 data_industrial['Datacenter Total (MW)'] = data_industrial.apply(
@@ -117,8 +117,8 @@ data_industrial['DateTime'] = pd.date_range(start=start_date, periods=len(data_i
 # Create a Plotly figure
 fig = go.Figure()
 
-fig.add_trace(go.Scatter(x=data_industrial['DateTime'], y=data_industrial['Consumed Industrial'], mode='lines', name='Industrial', line=dict(color='blue')))
-fig.add_trace(go.Scatter(x=data_industrial['DateTime'], y=data_industrial['Datacenter Contribution (MW)'], mode='lines', name='Industrial + Datacenters', line=dict(color='coral')))
+fig.add_trace(go.Scatter(x=data_industrial['DateTime'], y=data_industrial['Total Consumed'], mode='lines', name='Overal Retail Demand', line=dict(color='blue')))
+fig.add_trace(go.Scatter(x=data_industrial['DateTime'], y=data_industrial['Datacenter Contribution (MW)'], mode='lines', name='Overal Retail Demand + Datacenters', line=dict(color='coral')))
 
 fig.update_layout(
     xaxis_title='Time of Year',

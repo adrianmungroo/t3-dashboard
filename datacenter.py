@@ -176,7 +176,7 @@ if __name__ == "__main__":
     temperature = 35 #C
     humidity = 68 #Percent
 
-    data_industrial = pd.read_csv(r'data/Consumed_industrial_kW.csv')
+    data_industrial = pd.read_csv(r'data/Power_Consumption_KW.csv')
 
     siemens_datacenter = DatacenterConsumptionModel(datacenter_name, power_consumption, working_temp, cooling_tech, datacenter_type, 'Atlanta', 1)
 

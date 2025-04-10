@@ -143,86 +143,70 @@ def nav_to(url):
     """
     st.markdown(nav_script, unsafe_allow_html=True)
 
-# Create navigation with direct links using markdown
-st.markdown(
-    '''
-    <style>
-    .nav-button {
-        background-color: #F0F2F6;
-        border: none;
-        color: #0A3E5A;
-        padding: 10px 15px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin: 4px 2px;
-        cursor: pointer;
-        border-radius: 4px;
-        width: 100%;
-        white-space: pre-wrap;
-        font-weight: bold;
-    }
-    .nav-button.active {
-        background-color: #FF4B4B;
-        color: white;
-    }
-    </style>
-    ''',
-    unsafe_allow_html=True
-)
+# Initialize session state for navigation
+if 'page' not in st.session_state:
+    st.session_state.page = 'energy_efficiency'
 
+# Function to navigate between pages without full reload
+def navigate_to(page):
+    # Set the page in session state
+    st.session_state.page = page
+    # Use st.query_params to update URL without reload
+    st.query_params.page = page
+    # Rerun the app to reflect the change
+    st.rerun()
+
+# Check URL parameters for direct navigation
+if 'page' in st.query_params:
+    if st.query_params.page != st.session_state.page:
+        st.session_state.page = st.query_params.page
+
+# Create navigation with buttons
 col1, col2, col3, col4, col5 = st.columns(5)
 
 with col1:
-    st.markdown(
-        f'''
-        <a href="/intro" target="_self">
-            <button class="nav-button">Defining<br>Atlanta</button>
-        </a>
-        ''',
-        unsafe_allow_html=True
-    )
+    if st.button("Defining\nAtlanta", key="tab_intro", use_container_width=True, 
+                 help="Navigate to Defining Atlanta", 
+                 type="primary" if st.session_state.page == 'intro' else "secondary"):
+        navigate_to('intro')
 
 with col2:
-    st.markdown(
-        f'''
-        <a href="/energy_efficiency" target="_self">
-            <button class="nav-button active">Energy<br>Efficiency</button>
-        </a>
-        ''',
-        unsafe_allow_html=True
-    )
+    if st.button("Energy\nEfficiency", key="tab_energy", use_container_width=True, 
+                 help="Navigate to Energy Efficiency",
+                 type="primary" if st.session_state.page == 'energy_efficiency' else "secondary"):
+        navigate_to('energy_efficiency')
 
 with col3:
-    st.markdown(
-        f'''
-        <a href="#" target="_self">
-            <button class="nav-button">Data Centers<br>& EVs</button>
-        </a>
-        ''',
-        unsafe_allow_html=True
-    )
+    if st.button("Data Centers\n& EVs", key="tab_data", use_container_width=True, 
+                 help="Navigate to Data Centers & EVs",
+                 type="primary" if st.session_state.page == 'data_centers' else "secondary"):
+        navigate_to('data_centers')
 
 with col4:
-    st.markdown(
-        f'''
-        <a href="#" target="_self">
-            <button class="nav-button">Our Energy<br>Grid</button>
-        </a>
-        ''',
-        unsafe_allow_html=True
-    )
+    if st.button("Our Energy\nGrid", key="tab_grid", use_container_width=True, 
+                 help="Navigate to Our Energy Grid",
+                 type="primary" if st.session_state.page == 'energy_grid' else "secondary"):
+        navigate_to('energy_grid')
 
 with col5:
-    st.markdown(
-        f'''
-        <a href="#" target="_self">
-            <button class="nav-button">Looking to<br>our Future</button>
-        </a>
-        ''',
-        unsafe_allow_html=True
-    )
+    if st.button("Looking to\nour Future", key="tab_future", use_container_width=True, 
+                 help="Navigate to Looking to our Future",
+                 type="primary" if st.session_state.page == 'future' else "secondary"):
+        navigate_to('future')
+
+# Handle navigation based on session state
+if st.session_state.page != 'energy_efficiency':
+    # Map page names to their file paths
+    page_mapping = {
+        'intro': '9_intro.py',
+        'data_centers': '11_data_centers.py',  # Assuming this is the correct filename
+        'energy_grid': '12_energy_grid.py',    # Assuming this is the correct filename
+        'future': '13_future.py'              # Assuming this is the correct filename
+    }
+    
+    # Navigate to the selected page
+    if st.session_state.page in page_mapping:
+        st.switch_page(f"pages/{page_mapping[st.session_state.page]}")
 
 
 # Main content section with a left sidebar and main content area

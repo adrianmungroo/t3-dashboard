@@ -3,33 +3,6 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objs as go
 from streamlit.components.v1 import html
-from streamlit import runtime
-from streamlit.runtime.scriptrunner import get_script_run_ctx
-from streamlit.source_util import get_pages
-
-# Function to switch pages programmatically
-def switch_page(page_name: str):
-    from streamlit.runtime.scriptrunner import RerunData, RerunException
-    from streamlit.source_util import get_pages
-    
-    def standardize_name(name: str) -> str:
-        return name.lower().replace("_", " ")
-    
-    page_name = standardize_name(page_name)
-    
-    pages = get_pages("streamlit_app.py")
-    
-    for page_hash, config in pages.items():
-        if standardize_name(config["page_name"]) == page_name:
-            raise RerunException(
-                RerunData(
-                    page_script_hash=page_hash,
-                    page_name=page_name,
-                )
-            )
-    
-    page_names = [standardize_name(config["page_name"]) for config in pages.values()]
-    raise ValueError(f"Could not find page {page_name}. Must be one of {page_names}")
 
 APP_TITLE = "Atlanta Energy Transition"
 APP_SUBTITLE = "Energy Transformation Initiatives"
@@ -102,47 +75,86 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Create tabs with click handlers using session state
-if 'active_tab' not in st.session_state:
-    st.session_state.active_tab = 'intro'
+# Create navigation with direct links using markdown
+st.markdown(
+    '''
+    <style>
+    .nav-button {
+        background-color: #F0F2F6;
+        border: none;
+        color: #0A3E5A;
+        padding: 10px 15px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 4px;
+        width: 100%;
+        white-space: pre-wrap;
+        font-weight: bold;
+    }
+    .nav-button.active {
+        background-color: #FF4B4B;
+        color: white;
+    }
+    </style>
+    ''',
+    unsafe_allow_html=True
+)
 
-# Function to handle tab navigation
-def navigate_to(tab):
-    st.session_state.active_tab = tab
-    # Use st.rerun to reload the app with the new state
-    st.rerun()
-
-# Top navigation tabs - matching the blue tab design in the image
 col1, col2, col3, col4, col5 = st.columns(5)
 
 with col1:
-    if st.button("Defining\nAtlanta", key="tab_intro", use_container_width=True, 
-                 help="Navigate to Defining Atlanta", type="primary"):
-        navigate_to('intro')
+    st.markdown(
+        f'''
+        <a href="/intro" target="_self">
+            <button class="nav-button active">Defining<br>Atlanta</button>
+        </a>
+        ''',
+        unsafe_allow_html=True
+    )
 
 with col2:
-    if st.button("Energy\nEfficiency", key="tab_energy", use_container_width=True, 
-                 help="Navigate to Energy Efficiency"):
-        navigate_to('energy_efficiency')
+    st.markdown(
+        f'''
+        <a href="/energy_efficiency" target="_self">
+            <button class="nav-button">Energy<br>Efficiency</button>
+        </a>
+        ''',
+        unsafe_allow_html=True
+    )
 
 with col3:
-    if st.button("Data Centers\n& EVs", key="tab_data", use_container_width=True, 
-                 help="Navigate to Data Centers & EVs"):
-        navigate_to('data_centers')
+    st.markdown(
+        f'''
+        <a href="#" target="_self">
+            <button class="nav-button">Data Centers<br>& EVs</button>
+        </a>
+        ''',
+        unsafe_allow_html=True
+    )
 
 with col4:
-    if st.button("Our Energy\nGrid", key="tab_grid", use_container_width=True, 
-                 help="Navigate to Our Energy Grid"):
-        navigate_to('energy_grid')
+    st.markdown(
+        f'''
+        <a href="#" target="_self">
+            <button class="nav-button">Our Energy<br>Grid</button>
+        </a>
+        ''',
+        unsafe_allow_html=True
+    )
 
 with col5:
-    if st.button("Looking to\nour Future", key="tab_future", use_container_width=True, 
-                 help="Navigate to Looking to our Future"):
-        navigate_to('future')
-
-# Check if we need to redirect
-if st.session_state.active_tab != 'intro':
-    switch_page(st.session_state.active_tab)
+    st.markdown(
+        f'''
+        <a href="#" target="_self">
+            <button class="nav-button">Looking to<br>our Future</button>
+        </a>
+        ''',
+        unsafe_allow_html=True
+    )
 
 
 # Main content section with two columns

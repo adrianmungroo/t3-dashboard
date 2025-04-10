@@ -152,7 +152,7 @@ with col_left:
     st.markdown(
         '''
         <div class="content-text">
-            Atlanta is a major urban center experiencing significant growth, with over 1.1 million residents in Fulton County alone and expanding rapidly throughout the metro area. As the capital of Georgia and a regional transportation hub, the city has evolved into a consumer-heavy metropolis with increasing energy demands. Our urban landscape, shaped by unique topography and development patterns, creates specific challenges and opportunities for our energy infrastructure as we plan for sustainable growth in the coming decades.
+            The capital of Georgia and centerpiece of a metropolitan area exceeding 6 million residents, Atlanta represents a critical energy ecosystem with distinctive characteristics shaped by its climate, geography, and economic profile. With hot, humid summers driving substantial cooling demands and a dispersed urban footprint requiring extensive transportation networks, Atlanta's energy consumption patterns present unique challenges and opportunities for innovation.
         </div>
         ''',
         unsafe_allow_html=True
@@ -165,7 +165,7 @@ with col_right:
     st.markdown(
         '''
         <div class="content-text">
-            Atlanta\'s energy landscape is transforming rapidly with the rise of electric vehicles and data centers creating unprecedented demand. Traditionally, our power has been delivered from distant generation plants through long transmission lines, suffering 5% transmission losses and an additional 10% in distribution losses. New technologies are enabling a shift toward more localized generation and smart consumption patterns. This evolution means that for every 100 units of energy we use, generation plants currently must produce around 115 units to compensate for system inefficiencies.
+            Our city stands at a pivotal moment in its energy evolution. The traditional reliance on fossil fuel generation is giving way to a more diverse and sustainable mix of energy sources. Local policies supporting clean energy adoption, growing corporate sustainability commitments from Atlanta's major businesses, and increasing consumer interest in energy-efficient technologies are collectively driving this transition. From solar installations on commercial properties to community solar programs in historically underserved neighborhoods, energy innovation is spreading across the metro area.
         </div>
         ''',
         unsafe_allow_html=True
@@ -176,7 +176,7 @@ with col_right:
     st.markdown(
         '''
         <div class="content-text">
-            The future of Atlanta\'s energy grid depends on developing load flexibility and energy storage capabilities. Local power generation through solar installations, microgrids, and community energy projects can significantly reduce transmission losses while increasing resilience. Modern demand response systems allow consumers to adjust their energy use during peak times, creating a more efficient and responsive grid. By reimagining our energy infrastructure from centralized to distributed, we can build a more sustainable, adaptable system capable of meeting the challenges of climate change and urban growth.
+            This tool allows users to explore how different energy strategies—from building retrofits to distributed solar deployment to grid modernization—can impact Atlanta's energy future. By providing data-driven analysis of various scenarios, we aim to empower policymakers, businesses, community organizations, and residents to make informed decisions that enhance energy affordability, improve resilience, reduce environmental impacts, and ensure equitable access to clean energy benefits throughout the Atlanta region.
         </div>
         ''',
         unsafe_allow_html=True

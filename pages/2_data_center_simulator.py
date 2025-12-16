@@ -23,6 +23,14 @@ def compute_datacenter_cooling_power(datacenter: DatacenterConsumptionModel, dbt
 
     return cooling_power
 
+def compute_datacenter_water_usage(datacenter: DatacenterConsumptionModel, dbt: float, hum: float, water_usage):
+    dbt = (dbt - 32) * (5/9)
+    total_power, _ = datacenter.estimate_fixed_pue_power_consumption(dbt, hum)
+
+    total_water_usage = water_usage * total_power * 1000
+
+    return total_water_usage
+
 def compute_datacenter_usable_heatload(datacenter: DatacenterConsumptionModel, efficiency: float):
     heating_power = datacenter.estimate_heat_generation(efficiency=efficiency)
 
@@ -70,7 +78,7 @@ technology = col2.radio("Datacenter Cooling Technology", [DATACENTER_COOLING_TEC
 DATACENTER_COOLING_TECH.ADVANCED_AIR, DATACENTER_COOLING_TECH.LIQUID, DATACENTER_COOLING_TECH.IMMERSION_COOLING],
 captions=["Traditional Air", "Advanced Air", "Liquid Cooling", "Immersion Cooling"])
 datacenter_heat_eff = col2.slider("Datacenter Heat Recovery Efficiency", 0.2, 0.95, 0.6)
-
+datacenter_water_rate = col1.slider("Datacenter water usage gallons per kWh", 0.132086, 0.5, 0.25)
 # Example with units in MW
 power_consumption = datacenter_offset
 datacenter_name = 'Siemens'
@@ -90,6 +98,10 @@ data_industrial['Datacenter Total (MW)'] = data_industrial.apply(
 
 data_industrial['Datacenter Cooling (MW)'] = data_industrial.apply(
     lambda x: compute_datacenter_cooling_power(siemens_datacenter, x['DBT'], x['Rhum']), axis=1
+)
+
+data_industrial['Datacenter Water Gallons'] = data_industrial.apply(
+    lambda x: compute_datacenter_water_usage(siemens_datacenter, x['DBT'], x['Rhum'], datacenter_water_rate), axis=1
 )
 
 # data_industrial['Datacenter Usable Heatload (MW)'] = data_industrial.apply(
@@ -136,7 +148,7 @@ fig2.add_trace(go.Scatter(x=data_industrial['DateTime'], y=data_industrial['Data
 fig2.add_trace(go.Scatter(x=data_industrial['DateTime'], y=data_industrial['Datacenter Cooling (MW)'], mode='lines', name='Datacenter Cooling Power Required', line=dict(color='green')))
 # fig2.add_trace(go.Scatter(x=data_industrial['DateTime'], y=data_industrial['Datacenter Usable Heatload (MW)']/datacenter_heat_eff, mode='lines', name='Datacenter IT power', line=dict(color='black')))
 # fig2.add_trace(go.Scatter(x=data_industrial['DateTime'], y=data_industrial['Datacenter Usable Heatload (MW)'], mode='lines', name='Datacenter useable heatload', line=dict(color='red')))
-
+data_industrial.to_csv('Ind_results.csv', index=False)
 fig2.update_layout(
     xaxis_title='Time of Year',
     yaxis_title='Power (MW)',
@@ -145,7 +157,28 @@ fig2.update_layout(
 )
 
 st.plotly_chart(fig2)
+st.divider()
 
+# Create a Plotly figure
+df_monthly_sum = data_industrial.resample('MS', on='DateTime').sum()
+df_monthly_sum.to_csv('monthly_results.csv', index=False)
+
+df_daily_sum = data_industrial.resample('D', on='DateTime').sum()
+df_daily_sum.to_csv('daily_results.csv', index=False)
+
+fig3 = go.Figure()
+fig3.add_trace(go.Scatter(x=data_industrial['DateTime'], y=data_industrial['Datacenter Water Gallons'], mode='lines', name='Total Datacenter Water Consumption', line=dict(color='blue')))
+
+fig3.update_layout(
+    xaxis_title='Time of Year',
+    yaxis_title='Hourly Water Usage (Gal)',
+    legend=dict(x=1, y=1),
+    template='plotly_white'
+)
+
+
+
+st.plotly_chart(fig3)
 st.divider()
 
 st.header("Spatio-temporal Forecast of Fulton Datacenter Energy Usage")

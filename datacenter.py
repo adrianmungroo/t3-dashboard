@@ -112,6 +112,42 @@ class DatacenterConsumptionModel:
         cooling_power = weather_induced_cooling_power
 
         return total_power, cooling_power
+    
+    def estimate_fixed_pue_power_consumption(self, DB_temperature, Humidity):
+        """
+        Estimate the hourly power consumption of the datacenters
+        based on the datacenter type, cooling technology, and external weather conditions.
+        """
+        # Compute Real WB Temperature using Stull formula:
+        wetbulb_temperature = compute_BW(DB_temperature=DB_temperature, Humidity=Humidity)
+        yearly_wetbulb_temperature = compute_BW(DB_temperature=self.yearly_mean_temperature, Humidity=self.yearly_mean_humidity)
+
+        COP_multiplier = self.estimate_COP(yearly_wetbulb_temperature) / self.estimate_COP(wetbulb_temperature) # How much "worse" a warmer weather is compared to a cooler weather
+
+        # print('COP_scenario: '+str(self.estimate_COP(wetbulb_temperature)))
+        # print('COP_average: ' + str(self.estimate_COP(yearly_wetbulb_temperature)))
+        # print('COP_ratio: '+str(COP_multiplier))
+        # IT_equipment_power = (self.datacenter_size * self.num_datacenters) / self.pue # Share of the power that is IT only
+        #
+        # non_IT_power = (self.datacenter_size * self.num_datacenters) - IT_equipment_power
+
+        IT_equipment_power = (self.datacenter_size * self.num_datacenters)  # Share of the power that is IT only by design
+        estimated_pue = 0.75 * 1.35 + 0.22 * 1.1 + 0.03 * 1.025
+        non_IT_power = IT_equipment_power * (estimated_pue- 1)
+
+        non_IT_cooling_power = 0.74 * non_IT_power # Other uses for non_IT_power, such as lighting and electricity transformed should not be counted
+
+        non_IT_misc_power = 0.26 * non_IT_power # Lighting and electricity generation
+
+        fixed_power = IT_equipment_power + non_IT_misc_power  # Power in the datacenter that will not fluctuate due to weather
+
+        weather_induced_cooling_power = non_IT_cooling_power * (COP_multiplier)
+
+        total_power = fixed_power + weather_induced_cooling_power
+
+        cooling_power = weather_induced_cooling_power
+
+        return total_power, cooling_power
 
     def estimate_heat_generation(self, efficiency=0.6):
         """

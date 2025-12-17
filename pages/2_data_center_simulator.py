@@ -283,6 +283,8 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+# break
+st.divider()
 
 col1, col2 = st.columns(2)
 

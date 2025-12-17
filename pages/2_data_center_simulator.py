@@ -288,6 +288,15 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+st.markdown("<br>", unsafe_allow_html=True)
+st.markdown(
+    "<div style='text-align: center; color: gray; font-size: 0.85em;'>"
+    "Credit: Science for Georgia. Includes completed, planned data centers and crypto mines"
+    "</div>",
+    unsafe_allow_html=True
+)
+
+st.divider()
 st.header('Simulation Control')
 col1, col2 = st.columns(2)
 

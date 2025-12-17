@@ -287,7 +287,6 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-
 st.markdown("<br>", unsafe_allow_html=True)
 st.markdown(
     "<div style='text-align: center; color: gray; font-size: 0.85em;'>"
@@ -297,6 +296,28 @@ st.markdown(
 )
 
 st.divider()
+
+st.markdown("<div style='text-align: center;'><h2>Datacenter Scenario Breakdown</h2></div>", unsafe_allow_html=True)
+st.markdown(
+    """
+    <div style="text-align: center;">
+        <img src="https://i.imgur.com/D2fY0Jt.png" width="45%">
+        <img src="https://i.imgur.com/gJoSOoy.png" width="45%">
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+st.markdown(
+    """
+    <div style="text-align: center;">
+        <img src="https://i.imgur.com/L2TOHm6.png" width="45%">
+        <img src="https://i.imgur.com/onGM8UL.png" width="45%">
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
 st.header('Simulation Control')
 col1, col2 = st.columns(2)
 
@@ -412,27 +433,6 @@ with col2:
     )
     st.plotly_chart(fig3)
     # st.divider()
-
-st.markdown("<div style='text-align: center;'><h2>Datacenter Scenario Breakdown</h2></div>", unsafe_allow_html=True)
-st.markdown(
-    """
-    <div style="text-align: center;">
-        <img src="https://i.imgur.com/9Svlpv2.png" width="45%">
-        <img src="https://i.imgur.com/U9M6cNF.png" width="45%">
-    </div>
-    """,
-    unsafe_allow_html=True
-)
-
-st.markdown(
-    """
-    <div style="text-align: center;">
-        <img src="https://i.imgur.com/MmIBOQw.png" width="45%">
-        <img src="https://i.imgur.com/BqGBpkf.png" width="45%">
-    </div>
-    """,
-    unsafe_allow_html=True
-)
 
 st.header("Spatio-temporal Forecast of Fulton Datacenter Energy Usage")
 st.markdown('##### This analysis assumed datacenter locations from [Drawdown Georgia](https://drawdownga.gatech.edu/datacenters/) but this count is obsolete in comparison to [Data Center Map](https://www.datacentermap.com/usa/georgia/).')

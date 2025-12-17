@@ -267,6 +267,10 @@ st.markdown("""
 - Datacenter Base Power - This is the minimum amount of power that a datacenter consistently needs to operate.
 - Tip Point - The temperature threshold at which additional cooling starts to kick in.
 - Cooling Penalty - Quantifies the extra energy needed to cool the datacenter when it gets hotter than the Tip Point.  
+- Datacenter Cooling Technology - Changes the Power Usage Effectivenes (PUE) for the simulated datacenters.
+- Datacenter Heat Recovery Efficiency - Changes the sensitivity of the datacenter cooling system to changes in temperature
+- Datacenter water usage in gallons per kWh - Changes the relative water usage per kWh of power consumed (varies depending on datacenter technology and construction)
+- Datacenter PUE makeup - For water usage estimation, it changes the distribution of technologies across Atlanta (worst is all air, baseline reflects better the distribution in Atlanta, and best is all immersion cooling).           
 """)
 
 st.markdown("""
@@ -283,9 +287,8 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-# break
-st.divider()
 
+st.header('Simulation Control')
 col1, col2 = st.columns(2)
 
 datacenter_offset = col1.slider("Individual Datacenter IT (computing) Power MW", 0.0, 50.0, 20.0)
@@ -300,6 +303,8 @@ pue_mix = col2.radio("Datacenter PUE Makup", [DATACENTER_MIX_TYPE.WORST,
 DATACENTER_MIX_TYPE.BASELINE, DATACENTER_MIX_TYPE.BEST],
 captions=["Air Only", "Georgia Average", "Latest Technology"])
 datacenter_heat_eff = col1.slider("Datacenter Heat Recovery Efficiency", 0.2, 0.95, 0.6)
+st.header('Simulation Results')
+
 # Example with units in MW
 power_consumption = datacenter_offset
 datacenter_name = 'Siemens'
@@ -328,9 +333,8 @@ data_industrial['Datacenter Water Gallons'] = data_industrial.apply(
 # data_industrial['Datacenter Usable Heatload (MW)'] = data_industrial.apply(
 #     lambda x: compute_datacenter_usable_heatload(siemens_datacenter, datacenter_heat_eff), axis=1
 # )
-
+col1, col2 = st.columns(2)
 # Computing sample for pie chart:
-# Scenario
 temperature = 35 #C
 humidity = 68 #Percent
 total_power, cooling_power = siemens_datacenter.estimate_power_consumption(temperature, humidity)
@@ -348,59 +352,78 @@ start_date = pd.Timestamp('2022-01-01') # Making hours into datetime since we kn
 data_industrial['DateTime'] = pd.date_range(start=start_date, periods=len(data_industrial), freq='h')
 
 # Create a Plotly figure
-fig = go.Figure()
+with col1:
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=data_industrial['DateTime'], y=data_industrial['Total Consumed'], mode='lines', name='Overal Retail Demand', line=dict(color='blue')))
+    fig.add_trace(go.Scatter(x=data_industrial['DateTime'], y=data_industrial['Datacenter Contribution (MW)'], mode='lines', name='Overal Retail Demand + Datacenters', line=dict(color='coral')))
 
-fig.add_trace(go.Scatter(x=data_industrial['DateTime'], y=data_industrial['Total Consumed'], mode='lines', name='Overal Retail Demand', line=dict(color='blue')))
-fig.add_trace(go.Scatter(x=data_industrial['DateTime'], y=data_industrial['Datacenter Contribution (MW)'], mode='lines', name='Overal Retail Demand + Datacenters', line=dict(color='coral')))
+    fig.update_layout(
+        xaxis_title='Time of Year',
+        yaxis_title='Industry Power Consumption (MW)',
+        legend=dict(x=0, y=1),
+        template='plotly_white'  
+    )
+    st.plotly_chart(fig)
+    # st.divider()
 
-fig.update_layout(
-    xaxis_title='Time of Year',
-    yaxis_title='Industry Power Consumption (MW)',
-    legend=dict(x=0, y=1),
-    template='plotly_white'  
+    # Create a Plotly figure
+    fig2 = go.Figure()
+
+    fig2.add_trace(go.Scatter(x=data_industrial['DateTime'], y=data_industrial['Datacenter Total (MW)'], mode='lines', name='Total Datacenter Consumption', line=dict(color='blue')))
+    fig2.add_trace(go.Scatter(x=data_industrial['DateTime'], y=data_industrial['Datacenter Cooling (MW)'], mode='lines', name='Datacenter Cooling Power Required', line=dict(color='green')))
+    # fig2.add_trace(go.Scatter(x=data_industrial['DateTime'], y=data_industrial['Datacenter Usable Heatload (MW)']/datacenter_heat_eff, mode='lines', name='Datacenter IT power', line=dict(color='black')))
+    # fig2.add_trace(go.Scatter(x=data_industrial['DateTime'], y=data_industrial['Datacenter Usable Heatload (MW)'], mode='lines', name='Datacenter useable heatload', line=dict(color='red')))
+    data_industrial.to_csv('Ind_results.csv', index=False)
+    fig2.update_layout(
+        xaxis_title='Time of Year',
+        yaxis_title='Power (MW)',
+        legend=dict(x=1, y=1),
+        template='plotly_white'
+    )
+
+    st.plotly_chart(fig2)
+    # st.divider()
+
+with col2:
+    # Create a Plotly figure
+    df_monthly_sum = data_industrial.resample('MS', on='DateTime').sum()
+    df_monthly_sum.to_csv('monthly_results.csv', index=False)
+
+    df_daily_sum = data_industrial.resample('D', on='DateTime').sum()
+    df_daily_sum.to_csv('daily_results.csv', index=False)
+
+    fig3 = go.Figure()
+    fig3.add_trace(go.Scatter(x=data_industrial['DateTime'], y=data_industrial['Datacenter Water Gallons'], mode='lines', name='Total Datacenter Water Consumption', line=dict(color='blue')))
+
+    fig3.update_layout(
+        xaxis_title='Time of Year',
+        yaxis_title='Hourly Water Usage (Gal)',
+        legend=dict(x=1, y=1),
+        template='plotly_white'
+    )
+    st.plotly_chart(fig3)
+    # st.divider()
+
+st.markdown("<div style='text-align: center;'><h2>Datacenter Scenario Breakdown</h2></div>", unsafe_allow_html=True)
+st.markdown(
+    """
+    <div style="text-align: center;">
+        <img src="https://i.imgur.com/9Svlpv2.png" width="45%">
+        <img src="https://i.imgur.com/U9M6cNF.png" width="45%">
+    </div>
+    """,
+    unsafe_allow_html=True
 )
-st.plotly_chart(fig)
-st.divider()
 
-# Create a Plotly figure
-fig2 = go.Figure()
-
-fig2.add_trace(go.Scatter(x=data_industrial['DateTime'], y=data_industrial['Datacenter Total (MW)'], mode='lines', name='Total Datacenter Consumption', line=dict(color='blue')))
-fig2.add_trace(go.Scatter(x=data_industrial['DateTime'], y=data_industrial['Datacenter Cooling (MW)'], mode='lines', name='Datacenter Cooling Power Required', line=dict(color='green')))
-# fig2.add_trace(go.Scatter(x=data_industrial['DateTime'], y=data_industrial['Datacenter Usable Heatload (MW)']/datacenter_heat_eff, mode='lines', name='Datacenter IT power', line=dict(color='black')))
-# fig2.add_trace(go.Scatter(x=data_industrial['DateTime'], y=data_industrial['Datacenter Usable Heatload (MW)'], mode='lines', name='Datacenter useable heatload', line=dict(color='red')))
-data_industrial.to_csv('Ind_results.csv', index=False)
-fig2.update_layout(
-    xaxis_title='Time of Year',
-    yaxis_title='Power (MW)',
-    legend=dict(x=1, y=1),
-    template='plotly_white'
+st.markdown(
+    """
+    <div style="text-align: center;">
+        <img src="https://i.imgur.com/MmIBOQw.png" width="45%">
+        <img src="https://i.imgur.com/BqGBpkf.png" width="45%">
+    </div>
+    """,
+    unsafe_allow_html=True
 )
-
-st.plotly_chart(fig2)
-st.divider()
-
-# Create a Plotly figure
-df_monthly_sum = data_industrial.resample('MS', on='DateTime').sum()
-df_monthly_sum.to_csv('monthly_results.csv', index=False)
-
-df_daily_sum = data_industrial.resample('D', on='DateTime').sum()
-df_daily_sum.to_csv('daily_results.csv', index=False)
-
-fig3 = go.Figure()
-fig3.add_trace(go.Scatter(x=data_industrial['DateTime'], y=data_industrial['Datacenter Water Gallons'], mode='lines', name='Total Datacenter Water Consumption', line=dict(color='blue')))
-
-fig3.update_layout(
-    xaxis_title='Time of Year',
-    yaxis_title='Hourly Water Usage (Gal)',
-    legend=dict(x=1, y=1),
-    template='plotly_white'
-)
-
-
-
-st.plotly_chart(fig3)
-st.divider()
 
 st.header("Spatio-temporal Forecast of Fulton Datacenter Energy Usage")
 st.markdown('##### This analysis assumed datacenter locations from [Drawdown Georgia](https://drawdownga.gatech.edu/datacenters/) but this count is obsolete in comparison to [Data Center Map](https://www.datacentermap.com/usa/georgia/).')

@@ -19,6 +19,11 @@ class DATACENTER_TYPE(Enum): # Power per rack (in kW)
     TRADITIONAL = 7.5
     ULTRA_HIGH_DENSITY = 85
 
+class DATACENTER_MIX_TYPE(Enum):
+    WORST = (1,0,0,0)
+    BASELINE = (0,1,0,0) #(0.25,0.5,0.22,0.3)
+    BEST = (0,0,0,1)
+
 def compute_BW(DB_temperature, Humidity):
     return DB_temperature * np.arctan(
 			0.151977 * np.sqrt(Humidity + 8.313659)) + 0.00391838 * np.sqrt(
@@ -116,7 +121,7 @@ class DatacenterConsumptionModel:
 
         return total_power, cooling_power
     
-    def estimate_fixed_pue_power_consumption(self, DB_temperature, Humidity):
+    def estimate_fixed_pue_power_consumption(self, DB_temperature, Humidity, pue_mix):
         """
         Estimate the hourly power consumption of the datacenters
         based on the datacenter type, cooling technology, and external weather conditions.
@@ -135,7 +140,7 @@ class DatacenterConsumptionModel:
         # non_IT_power = (self.datacenter_size * self.num_datacenters) - IT_equipment_power
 
         IT_equipment_power = (self.datacenter_size * self.num_datacenters)  # Share of the power that is IT only by design
-        estimated_pue = 0.75 * 1.35 + 0.22 * 1.1 + 0.03 * 1.025
+        estimated_pue = pue_mix.value[0]*1.5 + pue_mix.value[1] * 1.35 + pue_mix.value[2] * 1.1 + pue_mix.value[3] * 1.025 
         non_IT_power = IT_equipment_power * (estimated_pue- 1)
 
         non_IT_cooling_power = 0.74 * non_IT_power # Other uses for non_IT_power, such as lighting and electricity transformed should not be counted
@@ -223,9 +228,9 @@ def compute_datacenter_cooling_power(datacenter: DatacenterConsumptionModel, dbt
 
     return cooling_power
 
-def compute_datacenter_water_usage(datacenter: DatacenterConsumptionModel, dbt: float, hum: float, water_usage):
+def compute_datacenter_water_usage(datacenter: DatacenterConsumptionModel, dbt: float, hum: float, water_usage, pue_mix: tuple):
     dbt = (dbt - 32) * (5/9)
-    total_power, _ = datacenter.estimate_fixed_pue_power_consumption(dbt, hum)
+    total_power, _ = datacenter.estimate_fixed_pue_power_consumption(dbt, hum, pue_mix)
 
     total_water_usage = water_usage * total_power * 1000
 
@@ -287,8 +292,12 @@ datacenter_working_temperature = col2.slider("Datacenter Working Temp (F)", 69, 
 technology = col2.radio("Datacenter Cooling Technology", [DATACENTER_COOLING_TECH.TRADITIONAL_AIR, 
 DATACENTER_COOLING_TECH.ADVANCED_AIR, DATACENTER_COOLING_TECH.LIQUID, DATACENTER_COOLING_TECH.IMMERSION_COOLING],
 captions=["Traditional Air", "Advanced Air", "Liquid Cooling", "Immersion Cooling"])
-datacenter_heat_eff = col2.slider("Datacenter Heat Recovery Efficiency", 0.2, 0.95, 0.6)
-datacenter_water_rate = col1.slider("Datacenter water usage gallons per kWh", 0.132086, 0.5, 0.25)
+datacenter_water_rate = col2.slider("Datacenter water usage gallons per kWh", 0.132086, 0.5, 0.25)
+
+pue_mix = col2.radio("Datacenter PUE Makup", [DATACENTER_MIX_TYPE.WORST, 
+DATACENTER_MIX_TYPE.BASELINE, DATACENTER_MIX_TYPE.BEST],
+captions=["Air Only", "Georgia Average", "Latest Technology"])
+datacenter_heat_eff = col1.slider("Datacenter Heat Recovery Efficiency", 0.2, 0.95, 0.6)
 # Example with units in MW
 power_consumption = datacenter_offset
 datacenter_name = 'Siemens'
@@ -311,7 +320,7 @@ data_industrial['Datacenter Cooling (MW)'] = data_industrial.apply(
 )
 
 data_industrial['Datacenter Water Gallons'] = data_industrial.apply(
-    lambda x: compute_datacenter_water_usage(siemens_datacenter, x['DBT'], x['Rhum'], datacenter_water_rate), axis=1
+    lambda x: compute_datacenter_water_usage(siemens_datacenter, x['DBT'], x['Rhum'], datacenter_water_rate, pue_mix), axis=1
 )
 
 # data_industrial['Datacenter Usable Heatload (MW)'] = data_industrial.apply(

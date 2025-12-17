@@ -269,6 +269,16 @@ st.markdown("""
 """)
 st.divider()
 
+st.markdown("<div style='text-align: center;'><h2>Current Datacenters in Atlanta</h2></div>", unsafe_allow_html=True)
+st.markdown(
+    """
+    <div style="text-align: center;">
+        <img src="https://i.imgur.com/NECuOYk.png" width="30%">
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
 col1, col2 = st.columns(2)
 
 datacenter_offset = col1.slider("Individual Datacenter IT (computing) Power MW", 0.0, 50.0, 20.0)
